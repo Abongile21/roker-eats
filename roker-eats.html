@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roker Eats — Order on WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ink:#141414;
+  --ink-soft:#1F1F1F;
+  --cream:#F4EFE3;
+  --cream-dim:#D9D2C1;
+  --gold:#E8B923;
+  --gold-deep:#C99A1A;
+  --red:#D6301B;
+  --red-deep:#A82212;
+  --steam:#F5F1E8;
+  --radius-lg:26px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);color:var(--cream);
+  font-family:'Work Sans', sans-serif;
+  overflow-x:hidden;position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  opacity:0.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg, var(--gold), var(--red));
+  z-index:1001;transition:width 0.1s ease-out;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(.22,.9,.34,1), transform 0.7s cubic-bezier(.22,.9,.34,1);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+h1,h2,h3{font-family:'Anton', sans-serif;font-weight:400;letter-spacing:0.01em;text-transform:uppercase;}
+
+/* ---------- HEADER ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(20,20,20,0.7);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(232,185,35,0.15);
+  transition:background 0.35s ease, box-shadow 0.35s ease;
+}
+header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba(0,0,0,0.6);}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1140px;margin:0 auto;}
+.logo{
+  font-family:'Anton', sans-serif;font-size:1.5rem;letter-spacing:0.02em;
+  color:var(--cream);display:flex;align-items:center;gap:8px;text-transform:uppercase;
+}
+.logo .stroke{color:var(--red);display:inline-block;animation:swoosh-pulse 2.6s ease-in-out infinite;}
+@keyframes swoosh-pulse{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.15);}}
+.nav-links{display:flex;gap:32px;font-size:0.92rem;font-weight:600;text-transform:uppercase;letter-spacing:0.03em;}
+.nav-links a{position:relative;padding:4px 0;transition:color 0.25s ease;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);transition:width 0.3s ease;}
+.nav-links a:hover::after,.nav-links a.active-link::after{width:100%;}
+.nav-links a:hover,.nav-links a.active-link{color:var(--gold);}
+.wa-btn{
+  background:#25D366;color:#0B1B10;padding:11px 22px;border-radius:100px;
+  font-weight:700;font-size:0.88rem;display:inline-flex;align-items:center;gap:8px;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(37,211,102,0.6);}
+.wa-btn svg{width:18px;height:18px;flex-shrink:0;}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:150px 32px 100px;isolation:isolate;overflow:hidden;
+}
+.hero-inner{max-width:1140px;margin:0 auto;width:100%;position:relative;z-index:2;display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center;}
+.eyebrow{
+  font-family:'JetBrains Mono', monospace;color:var(--gold);font-size:0.8rem;
+  letter-spacing:0.15em;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:26px;
+  opacity:0;transform:translateY(14px);animation:hero-rise 0.7s cubic-bezier(.22,.9,.34,1) forwards;
+}
+.eyebrow::before{content:'';width:28px;height:2px;background:var(--gold);display:inline-block;}
+.hero h1{
+  font-size:clamp(3rem, 8.4vw, 6.6rem);line-height:0.9;color:var(--cream);
+  opacity:0;transform:translateY(24px);animation:hero-rise 0.9s cubic-bezier(.22,.9,.34,1) 0.15s forwards;
+}
+.hero h1 .hl{color:var(--gold);position:relative;}
+.hero .tagline{
+  margin-top:8px;font-family:'Anton',sans-serif;font-size:clamp(1.1rem,2.2vw,1.5rem);
+  color:var(--red);text-transform:uppercase;letter-spacing:0.02em;
+  opacity:0;transform:translateY(20px);animation:hero-rise 0.9s cubic-bezier(.22,.9,.34,1) 0.3s forwards;
+}
+.hero p.sub{
+  margin-top:26px;max-width:460px;font-size:1.08rem;line-height:1.6;color:var(--cream-dim);
+  opacity:0;transform:translateY(20px);animation:hero-rise 0.9s cubic-bezier(.22,.9,.34,1) 0.45s forwards;
+}
+@keyframes hero-rise{to{opacity:1;transform:translateY(0);}}
+.hero-actions{
+  display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;
+  opacity:0;transform:translateY(20px);animation:hero-rise 0.9s cubic-bezier(.22,.9,.34,1) 0.6s forwards;
+}
+.btn-primary,.btn-secondary{position:relative;overflow:hidden;}
+.btn-primary::before,.btn-secondary::before{
+  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform:skewX(-20deg);transition:left 0.6s ease;
+}
+.btn-primary:hover::before,.btn-secondary:hover::before{left:130%;}
+.btn-primary{
+  background:#25D366;color:#0B1B10;padding:16px 30px;border-radius:100px;font-weight:700;
+  font-size:1rem;display:inline-flex;align-items:center;gap:10px;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 26px -10px rgba(37,211,102,0.55);}
+.btn-primary:active{transform:translateY(-1px) scale(0.98);}
+.btn-primary svg{width:20px;height:20px;}
+.btn-secondary{
+  border:1.5px solid rgba(244,239,227,0.3);color:var(--cream);
+  padding:16px 30px;border-radius:100px;font-weight:600;font-size:1rem;
+  transition:border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.btn-secondary:hover{border-color:var(--gold);background:rgba(232,185,35,0.08);transform:translateY(-3px);}
+
+.pot-wrap{position:relative;z-index:2;display:flex;justify-content:center;}
+.pot-svg{width:100%;max-width:380px;height:auto;}
+.steam-line{animation:steam-rise 3s ease-in-out infinite;transform-origin:bottom center;}
+.steam-line:nth-child(2){animation-delay:0.5s;}
+.steam-line:nth-child(3){animation-delay:1s;}
+@keyframes steam-rise{
+  0%{transform:translateY(0) scaleY(1);opacity:0.9;}
+  50%{transform:translateY(-10px) scaleY(1.08);opacity:0.5;}
+  100%{transform:translateY(-20px) scaleY(1);opacity:0.9;}
+}
+.pot-glow{animation:glow-pulse 2.4s ease-in-out infinite;}
+@keyframes glow-pulse{0%,100%{opacity:0.5;}50%{opacity:0.85;}}
+
+.blob-bg{
+  position:absolute;right:-140px;top:6%;width:520px;height:520px;
+  background:radial-gradient(circle at 35% 30%, rgba(214,48,27,0.22), transparent 65%);
+  filter:blur(10px);z-index:0;animation:blob-drift 12s ease-in-out infinite;
+}
+.blob-bg.two{
+  right:auto;left:-160px;top:50%;width:420px;height:420px;
+  background:radial-gradient(circle at 60% 40%, rgba(232,185,35,0.16), transparent 65%);
+  animation:blob-drift 16s ease-in-out infinite reverse;
+}
+@keyframes blob-drift{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(-30px,20px) scale(1.06);}
+  66%{transform:translate(20px,-16px) scale(0.96);}
+}
+
+/* ---------- SECTION DIVIDER ---------- */
+.splash-divider{display:block;width:100%;height:auto;position:relative;margin-top:-1px;}
+
+/* ---------- MENU ---------- */
+.menu-section{background:var(--cream);color:var(--ink);padding:0 0 120px;position:relative;}
+.menu-head{text-align:center;padding:100px 32px 50px;max-width:720px;margin:0 auto;}
+.menu-head .eyebrow{color:var(--red-deep);justify-content:center;}
+.menu-head .eyebrow::before{background:var(--red-deep);}
+.menu-head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);line-height:1;}
+.menu-head p{margin-top:16px;color:#5c5347;font-size:1.02rem;line-height:1.6;}
+
+.tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:40px 0 8px;}
+.tab-btn{
+  font-family:'JetBrains Mono', monospace;font-size:0.8rem;letter-spacing:0.05em;text-transform:uppercase;
+  background:transparent;border:1.5px solid rgba(20,20,20,0.18);color:var(--ink);
+  padding:10px 20px;border-radius:100px;cursor:pointer;transition:all 0.25s ease;
+}
+.tab-btn:hover{border-color:var(--red);color:var(--red-deep);transform:translateY(-2px);}
+.tab-btn.active{background:var(--ink);border-color:var(--ink);color:var(--gold);}
+.tab-btn:active{transform:translateY(0) scale(0.96);}
+
+.menu-grid{max-width:840px;margin:46px auto 0;padding:0 32px;display:none;}
+.menu-grid.active{display:block;}
+.menu-item{
+  display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  padding:24px 22px;border-bottom:1px solid rgba(20,20,20,0.12);border-radius:14px;margin:0 -22px;
+  position:relative;opacity:0;transform:translateY(16px);
+  animation:item-in 0.55s cubic-bezier(.22,.9,.34,1) forwards;
+  transition:background 0.3s ease, box-shadow 0.3s ease;
+}
+@keyframes item-in{to{opacity:1;transform:translateY(0);}}
+.menu-item:hover{background:rgba(214,48,27,0.05);box-shadow:inset 3px 0 0 var(--red);}
+.menu-item:nth-child(1){animation-delay:0.05s;}
+.menu-item:nth-child(2){animation-delay:0.14s;}
+.menu-item:nth-child(3){animation-delay:0.23s;}
+.menu-item:nth-child(4){animation-delay:0.32s;}
+.menu-item:nth-child(5){animation-delay:0.41s;}
+.menu-item:last-child{border-bottom:none;}
+.item-left{max-width:560px;}
+.item-name{font-family:'Anton', sans-serif;font-weight:400;font-size:1.25rem;color:var(--ink);display:flex;align-items:center;gap:10px;letter-spacing:0.01em;text-transform:none;}
+.tag{
+  font-family:'JetBrains Mono', monospace;font-size:0.6rem;letter-spacing:0.06em;
+  background:var(--gold-deep);color:var(--ink);padding:3px 8px;border-radius:5px;
+  text-transform:uppercase;font-weight:700;transition:transform 0.25s ease;
+}
+.menu-item:hover .tag{transform:scale(1.06);}
+.tag.spicy{background:var(--red-deep);color:var(--cream);}
+.item-desc{margin-top:5px;color:#6b6155;font-size:0.93rem;line-height:1.5;}
+.item-price{
+  font-family:'JetBrains Mono', monospace;font-size:1.05rem;font-weight:600;
+  color:var(--red-deep);white-space:nowrap;display:inline-block;
+  transition:transform 0.3s cubic-bezier(.34,1.56,.64,1), color 0.3s ease;
+}
+.menu-item:hover .item-price{transform:scale(1.12);color:var(--red);}
+
+/* ---------- ORDER / LOCATION ---------- */
+.location-section{background:var(--ink);position:relative;padding:110px 0 100px;}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;}
+.loc-info .eyebrow{color:var(--gold);}
+.loc-info h2{font-size:clamp(2rem,4.5vw,3rem);color:var(--cream);margin-top:4px;line-height:1;}
+.loc-detail{margin-top:34px;display:flex;gap:16px;align-items:flex-start;transition:transform 0.3s ease;}
+.loc-detail:hover{transform:translateX(6px);}
+.loc-detail + .loc-detail{margin-top:24px;}
+.loc-icon{
+  width:40px;height:40px;flex-shrink:0;border-radius:50%;
+  background:rgba(214,48,27,0.15);border:1px solid rgba(214,48,27,0.3);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s ease, transform 0.3s ease;
+}
+.loc-detail:hover .loc-icon{background:rgba(214,48,27,0.28);transform:scale(1.08) rotate(-6deg);}
+.loc-detail h4{font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.98rem;color:var(--cream);text-transform:uppercase;letter-spacing:0.02em;}
+.loc-detail p{color:var(--cream-dim);font-size:0.94rem;margin-top:4px;line-height:1.5;}
+.loc-detail a{color:var(--gold);}
+.loc-detail a:hover{text-decoration:underline;}
+
+.order-card{
+  background:var(--ink-soft);border-radius:var(--radius-lg);padding:40px 34px;
+  border:1px solid rgba(232,185,35,0.15);text-align:center;position:relative;overflow:hidden;
+}
+.order-card::before{
+  content:'';position:absolute;top:-40%;right:-20%;width:260px;height:260px;
+  background:radial-gradient(circle, rgba(37,211,102,0.14), transparent 70%);
+}
+.order-card h3{
+  font-family:'Anton',sans-serif;font-size:1.6rem;color:var(--cream);position:relative;z-index:1;
+}
+.order-card p{color:var(--cream-dim);margin-top:10px;font-size:0.95rem;line-height:1.55;position:relative;z-index:1;}
+.wa-number{
+  font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:500;color:var(--gold);
+  margin:22px 0;letter-spacing:0.03em;position:relative;z-index:1;
+}
+.order-card .btn-primary{margin-top:6px;position:relative;z-index:1;}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:46px 32px 32px;}
+.footer-inner{max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-inner .logo{font-size:1.15rem;}
+.footer-links{display:flex;gap:26px;font-size:0.88rem;color:var(--cream-dim);text-transform:uppercase;letter-spacing:0.02em;}
+.footer-links a:hover{color:var(--gold);}
+.footer-note{font-size:0.78rem;color:#8a8074;font-family:'JetBrains Mono',monospace;}
+
+/* floating WhatsApp button (mobile-first ordering habit) */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;z-index:200;
+  width:60px;height:60px;border-radius:50%;background:#25D366;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 14px 30px -8px rgba(37,211,102,0.55);
+  transition:transform 0.25s ease;
+  animation:float-bob 2.8s ease-in-out infinite;
+}
+.wa-float:hover{transform:scale(1.08);}
+.wa-float svg{width:30px;height:30px;}
+@keyframes float-bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px){
+  .hero-inner{grid-template-columns:1fr;text-align:left;}
+  .pot-wrap{order:-1;max-width:260px;margin:0 auto 10px;}
+  .loc-grid{grid-template-columns:1fr;gap:44px;}
+  .nav-links{display:none;}
+}
+@media (max-width: 560px){
+  .hero{padding-top:120px;}
+  .item-price{font-size:0.95rem;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+  .wa-btn span{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header>
+  <nav class="nav">
+    <div class="logo">Roker<span class="stroke">/</span>Eats</div>
+    <div class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#order">Order</a>
+      <a href="#location">Find Us</a>
+    </div>
+    <a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="wa-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="blob-bg" aria-hidden="true"></div>
+  <div class="blob-bg two" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Home-Style · WhatsApp Orders Only</div>
+      <h1>Roker <span class="hl">Eats</span></h1>
+      <div class="tagline">Flavour in a league of its own</div>
+      <p class="sub">Potjies simmered slow, kota stacked high, vetkoek straight out the pot. No sit-down menu — just WhatsApp your order and we'll have it ready.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+          Order on WhatsApp
+        </a>
+        <a href="#menu" class="btn-secondary">See the menu</a>
+      </div>
+    </div>
+
+    <div class="pot-wrap">
+      <svg class="pot-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a steaming potjie pot with vetkoek beside it">
+        <ellipse class="pot-glow" cx="150" cy="205" rx="95" ry="24" fill="#D6301B" opacity="0.6"/>
+        <!-- steam -->
+        <path class="steam-line" d="M120 95 C110 80 130 65 120 48" stroke="#F5F1E8" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <path class="steam-line" d="M150 90 C140 74 160 58 150 40" stroke="#F5F1E8" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <path class="steam-line" d="M180 95 C170 80 190 65 180 48" stroke="#F5F1E8" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <!-- pot lid rim / stew -->
+        <ellipse cx="150" cy="118" rx="78" ry="20" fill="#E8B923"/>
+        <ellipse cx="150" cy="114" rx="70" ry="16" fill="#C99A1A"/>
+        <!-- pot body -->
+        <path d="M72 118 C72 118 78 210 150 210 C222 210 228 118 228 118 Z" fill="#1F1F1F" stroke="#0B0B0B" stroke-width="3"/>
+        <ellipse cx="150" cy="118" rx="78" ry="18" fill="none" stroke="#0B0B0B" stroke-width="3"/>
+        <!-- handles -->
+        <ellipse cx="60" cy="130" rx="10" ry="16" fill="none" stroke="#0B0B0B" stroke-width="5"/>
+        <ellipse cx="240" cy="130" rx="10" ry="16" fill="none" stroke="#0B0B0B" stroke-width="5"/>
+        <!-- legs -->
+        <path d="M95 205 L85 235" stroke="#0B0B0B" stroke-width="7" stroke-linecap="round"/>
+        <path d="M205 205 L215 235" stroke="#0B0B0B" stroke-width="7" stroke-linecap="round"/>
+        <path d="M150 210 L150 240" stroke="#0B0B0B" stroke-width="7" stroke-linecap="round"/>
+        <!-- vetkoek beside pot -->
+        <ellipse cx="245" cy="225" rx="30" ry="20" fill="#E8B923"/>
+        <ellipse cx="245" cy="222" rx="30" ry="18" fill="#F2C94C"/>
+        <ellipse cx="60" cy="228" rx="24" ry="16" fill="#E8B923"/>
+        <ellipse cx="60" cy="225" rx="24" ry="14" fill="#F2C94C"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<svg class="splash-divider" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M0,20 C 120,70 240,0 380,30 C 520,60 620,10 760,25 C 900,42 1000,80 1160,40 C 1300,8 1380,50 1440,25 L1440,90 L0,90 Z" fill="#F4EFE3"/>
+</svg>
+
+<!-- ================= MENU ================= -->
+<section class="menu-section" id="menu">
+  <div class="menu-head reveal">
+    <div class="eyebrow">The Menu</div>
+    <h2>Cooked in the pot, not the fryer.</h2>
+    <p>Everything's dished fresh to order. Message us your pick on WhatsApp and we'll confirm your time.</p>
+  </div>
+
+  <div class="tabs reveal" role="tablist" aria-label="Menu categories">
+    <button class="tab-btn active" data-tab="potjies" role="tab" aria-selected="true">Potjies</button>
+    <button class="tab-btn" data-tab="kota" role="tab" aria-selected="false">Kota &amp; Vetkoek</button>
+    <button class="tab-btn" data-tab="sides" role="tab" aria-selected="false">Sides</button>
+    <button class="tab-btn" data-tab="drinks" role="tab" aria-selected="false">Drinks</button>
+  </div>
+
+  <div class="menu-grid active" id="potjies">
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Beef Short Rib Potjie <span class="tag">Signature</span></div>
+        <div class="item-desc">Slow-braised 4 hours, root veg, rich gravy, served with pap.</div>
+      </div>
+      <div class="item-price">R85</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chicken &amp; Dumpling Potjie</div>
+        <div class="item-desc">Free-range chicken, soft dumplings, garden veg.</div>
+      </div>
+      <div class="item-price">R70</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Mogodu (Tripe) Potjie <span class="tag spicy">Spicy</span></div>
+        <div class="item-desc">Traditional style, slow-cooked with chakalaka spice.</div>
+      </div>
+      <div class="item-price">R65</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Veggie &amp; Bean Potjie <span class="tag">Vegetarian</span></div>
+        <div class="item-desc">Butternut, chickpeas, spinach, smoked paprika.</div>
+      </div>
+      <div class="item-price">R55</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="kota">
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Roker Kota <span class="tag spicy">Signature</span></div>
+        <div class="item-desc">Quarter loaf, chips, polony, cheese, russian, atchar &amp; sauce.</div>
+      </div>
+      <div class="item-price">R60</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Vetkoek &amp; Mince</div>
+        <div class="item-desc">Fresh fried vetkoek stuffed with curried mince.</div>
+      </div>
+      <div class="item-price">R35</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Plain Vetkoek (3 pcs)</div>
+        <div class="item-desc">Straight out the pot, served warm.</div>
+      </div>
+      <div class="item-price">R25</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Bunny Chow <span class="tag spicy">Spicy</span></div>
+        <div class="item-desc">Half loaf, mutton curry, sambals on the side.</div>
+      </div>
+      <div class="item-price">R70</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="sides">
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Pap &amp; Chakalaka</div>
+        <div class="item-desc">Stywe pap, spiced tomato relish.</div>
+      </div>
+      <div class="item-price">R30</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Ujeqe (Steamed Bread)</div>
+        <div class="item-desc">Soft steamed bread, served warm.</div>
+      </div>
+      <div class="item-price">R20</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Amagwinya Chips</div>
+        <div class="item-desc">Vetkoek fingers, salt &amp; vinegar.</div>
+      </div>
+      <div class="item-price">R25</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="drinks">
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Ice Cold Coke / Fanta / Sprite</div>
+        <div class="item-desc">330ml can.</div>
+      </div>
+      <div class="item-price">R15</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Homemade Ginger Beer</div>
+        <div class="item-desc">Brewed in-house, served cold.</div>
+      </div>
+      <div class="item-price">R20</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Rooibos Iced Tea</div>
+        <div class="item-desc">Lightly sweetened, lemon slice.</div>
+      </div>
+      <div class="item-price">R18</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ORDER + LOCATION ================= -->
+<section class="location-section" id="location">
+  <div class="wrap loc-grid">
+    <div class="loc-info reveal">
+      <div class="eyebrow">Find Us</div>
+      <h2>Thanks for the order.</h2>
+
+      <div class="loc-detail">
+        <div class="loc-icon">📍</div>
+        <div>
+          <h4>Pickup Point</h4>
+          <p>Roker Street corner stand<br>Message us on WhatsApp for the exact spot</p>
+        </div>
+      </div>
+
+      <div class="loc-detail">
+        <div class="loc-icon">🕐</div>
+        <div>
+          <h4>Open</h4>
+          <p>Daily: 11:00 – 21:00</p>
+        </div>
+      </div>
+
+      <div class="loc-detail" id="order">
+        <div class="loc-icon">💬</div>
+        <div>
+          <h4>Order</h4>
+          <p>WhatsApp only — <a href="https://wa.me/27767262115" target="_blank" rel="noopener">076 726 2115</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-card reveal">
+      <h3>Order on WhatsApp</h3>
+      <p>Send us your order and pickup time — we'll confirm and get the pot going.</p>
+      <div class="wa-number">076 726 2115</div>
+      <a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+        Message Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo">Roker<span class="stroke">/</span>Eats</div>
+    <div class="footer-links">
+      <a href="#menu">Menu</a>
+      <a href="#location">Find Us</a>
+      <a href="https://wa.me/27767262115">WhatsApp</a>
+    </div>
+    <div class="footer-note">© 2026 Roker Eats</div>
+  </div>
+</footer>
+
+<a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="wa-float" aria-label="Order on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#0B1B10"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+</a>
+
+<script>
+const progressBar = document.getElementById('scrollProgress');
+const headerEl = document.querySelector('header');
+function onScroll(){
+  const scrollTop = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (max > 0 ? (scrollTop / max) * 100 : 0) + '%';
+  headerEl.classList.toggle('scrolled', scrollTop > 30);
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+const sections = ['menu','location'].map(id=>document.getElementById(id));
+const navLinks = document.querySelectorAll('.nav-links a');
+function onSpy(){
+  let current = null;
+  sections.forEach(sec=>{
+    if(!sec) return;
+    const rect = sec.getBoundingClientRect();
+    if(rect.top <= 120 && rect.bottom > 120) current = sec.id;
+  });
+  navLinks.forEach(link=>{
+    link.classList.toggle('active-link', link.getAttribute('href') === '#' + current);
+  });
+}
+document.addEventListener('scroll', onSpy, {passive:true});
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      io.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+revealEls.forEach(el=>io.observe(el));
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+    document.querySelectorAll('.menu-grid').forEach(g=>g.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
