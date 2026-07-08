@@ -182,23 +182,34 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .tab-btn.active{background:var(--ink);border-color:var(--ink);color:var(--gold);}
 .tab-btn:active{transform:translateY(0) scale(0.96);}
 
-.menu-grid{max-width:840px;margin:46px auto 0;padding:0 32px;display:none;}
+.menu-grid{max-width:980px;margin:46px auto 0;padding:0 32px;display:none;}
 .menu-grid.active{display:block;}
 .menu-item{
-  display:flex;justify-content:space-between;align-items:baseline;gap:20px;
-  padding:24px 22px;border-bottom:1px solid rgba(20,20,20,0.12);border-radius:14px;margin:0 -22px;
+  display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:18px;align-items:center;
+  padding:18px;border:1px solid rgba(20,20,20,0.10);border-radius:18px;margin:0 0 16px;
   position:relative;opacity:0;transform:translateY(16px);
   animation:item-in 0.55s cubic-bezier(.22,.9,.34,1) forwards;
-  transition:background 0.3s ease, box-shadow 0.3s ease;
+  transition:background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 @keyframes item-in{to{opacity:1;transform:translateY(0);}}
-.menu-item:hover{background:rgba(214,48,27,0.05);box-shadow:inset 3px 0 0 var(--red);}
+.menu-item:hover{background:rgba(214,48,27,0.05);border-color:rgba(214,48,27,0.22);box-shadow:0 10px 24px -20px rgba(20,20,20,0.35);}
 .menu-item:nth-child(1){animation-delay:0.05s;}
 .menu-item:nth-child(2){animation-delay:0.14s;}
 .menu-item:nth-child(3){animation-delay:0.23s;}
 .menu-item:nth-child(4){animation-delay:0.32s;}
 .menu-item:nth-child(5){animation-delay:0.41s;}
-.menu-item:last-child{border-bottom:none;}
+.menu-item:last-child{margin-bottom:0;}
+.item-photo{
+  width:150px;height:118px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;
+  background:linear-gradient(135deg, rgba(232,185,35,0.18), rgba(214,48,27,0.14));
+  border:1px solid rgba(20,20,20,0.08);
+}
+.item-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.item-photo .photo-placeholder{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono', monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
+  color:rgba(20,20,20,0.6);background:linear-gradient(135deg, rgba(244,239,227,0.92), rgba(232,185,35,0.28));
+}
 .item-left{max-width:560px;}
 .item-name{font-family:'Anton', sans-serif;font-weight:400;font-size:1.25rem;color:var(--ink);display:flex;align-items:center;gap:10px;letter-spacing:0.01em;text-transform:none;}
 .tag{
@@ -212,6 +223,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .item-price{
   font-family:'JetBrains Mono', monospace;font-size:1.05rem;font-weight:600;
   color:var(--red-deep);white-space:nowrap;display:inline-block;
+  justify-self:end;align-self:center;text-align:right;
   transition:transform 0.3s cubic-bezier(.34,1.56,.64,1), color 0.3s ease;
 }
 .menu-item:hover .item-price{transform:scale(1.12);color:var(--red);}
@@ -253,6 +265,19 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   margin:22px 0;letter-spacing:0.03em;position:relative;z-index:1;
 }
 .order-card .btn-primary{margin-top:6px;position:relative;z-index:1;}
+.map-frame{
+  position:relative;z-index:1;margin-top:22px;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(244,239,227,0.1);background:#101010;
+  aspect-ratio: 16 / 11;
+}
+.map-frame iframe{width:100%;height:100%;border:0;display:block;filter:saturate(0.95) contrast(1.02);}
+.map-actions{position:relative;z-index:1;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.map-link{
+  border:1.5px solid rgba(244,239,227,0.18);color:var(--cream);
+  padding:12px 18px;border-radius:100px;font-weight:700;font-size:0.9rem;
+  transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.map-link:hover{transform:translateY(-2px);border-color:var(--gold);background:rgba(232,185,35,0.08);}
 
 /* ---------- FOOTER ---------- */
 footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:46px 32px 32px;}
@@ -284,6 +309,9 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 }
 @media (max-width: 560px){
   .hero{padding-top:120px;}
+  .menu-item{grid-template-columns:1fr;gap:14px;}
+  .item-photo{width:100%;height:190px;}
+  .item-price{justify-self:start;text-align:left;}
   .item-price{font-size:0.95rem;}
   .footer-inner{flex-direction:column;align-items:flex-start;}
   .wa-btn span{display:none;}
@@ -378,6 +406,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 
   <div class="menu-grid active" id="potjies">
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Beef Short Rib Potjie" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><circle cx='238' cy='54' r='52' fill='%23d6301b' opacity='0.18'/><path d='M90 78c12-14 46-22 70-10 20 10 28 28 42 34 16 7 28 6 39 22 7 10 8 26-2 38-12 15-36 18-72 18-30 0-54-4-74-14-18-10-26-24-26-40 0-16 7-31 23-48z' fill='%231f1f1f'/><ellipse cx='159' cy='102' rx='74' ry='18' fill='%23c99a1a'/><ellipse cx='159' cy='99' rx='64' ry='14' fill='%23e8b923'/><rect x='126' y='118' width='66' height='40' rx='20' fill='%236b3f24'/><circle cx='110' cy='125' r='12' fill='%23a65c2a'/><circle cx='214' cy='128' r='12' fill='%23a65c2a'/><rect x='122' y='138' width='10' height='40' rx='5' fill='%230b0b0b'/><rect x='188' y='138' width='10' height='40' rx='5' fill='%230b0b0b'/><path d='M152 36c-12 14 10 19-2 35' stroke='%23f4efe3' stroke-width='8' fill='none' stroke-linecap='round'/><path d='M178 32c-12 14 10 19-2 35' stroke='%23f4efe3' stroke-width='8' fill='none' stroke-linecap='round'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Beef Short Rib Potjie <span class="tag">Signature</span></div>
         <div class="item-desc">Slow-braised 4 hours, root veg, rich gravy, served with pap.</div>
@@ -385,6 +417,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R85</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Chicken and Dumpling Potjie" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23d6301b' stop-opacity='.18'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><ellipse cx='160' cy='102' rx='76' ry='18' fill='%23c99a1a'/><ellipse cx='160' cy='99' rx='66' ry='14' fill='%23e8b923'/><path d='M88 82c10-12 32-20 60-20 40 0 84 18 94 42 8 18 1 42-16 56-13 10-34 18-61 18-47 0-85-14-98-36-9-14-2-41 21-60z' fill='%231f1f1f'/><circle cx='122' cy='124' r='14' fill='%23c99a1a'/><circle cx='156' cy='132' r='14' fill='%23f4efe3'/><circle cx='192' cy='124' r='14' fill='%23c99a1a'/><rect x='128' y='138' width='64' height='36' rx='18' fill='%23b56d2a'/><rect x='122' y='144' width='8' height='36' rx='4' fill='%230b0b0b'/><rect x='190' y='144' width='8' height='36' rx='4' fill='%230b0b0b'/><path d='M150 40c-12 16 10 18-2 34' stroke='%23f4efe3' stroke-width='8' fill='none' stroke-linecap='round'/><path d='M176 34c-12 16 10 18-2 34' stroke='%23f4efe3' stroke-width='8' fill='none' stroke-linecap='round'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Chicken &amp; Dumpling Potjie</div>
         <div class="item-desc">Free-range chicken, soft dumplings, garden veg.</div>
@@ -392,6 +428,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Mogodu Potjie" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23a82212' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><ellipse cx='160' cy='104' rx='76' ry='18' fill='%23a82212'/><ellipse cx='160' cy='101' rx='66' ry='14' fill='%23d6301b'/><path d='M86 84c10-14 36-22 70-22 38 0 82 14 94 38 10 20 1 46-20 58-16 10-38 16-64 16-47 0-84-12-98-34-10-14-1-38 18-56z' fill='%231f1f1f'/><path d='M122 122c10-16 22-14 30 0 8 14 20 16 30 0 8-12 22-10 30 4 6 10 0 28-18 36-14 6-30 8-46 8-18 0-34-2-46-8-18-8-24-24-18-34 6-12 14-10 18-6z' fill='%235c2f1b'/><rect x='124' y='144' width='10' height='36' rx='5' fill='%230b0b0b'/><rect x='188' y='144' width='10' height='36' rx='5' fill='%230b0b0b'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Mogodu (Tripe) Potjie <span class="tag spicy">Spicy</span></div>
         <div class="item-desc">Traditional style, slow-cooked with chakalaka spice.</div>
@@ -399,6 +439,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R65</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Veggie and Bean Potjie" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><ellipse cx='160' cy='104' rx='76' ry='18' fill='%23c99a1a'/><ellipse cx='160' cy='101' rx='66' ry='14' fill='%23e8b923'/><path d='M88 82c10-12 30-20 60-20 38 0 82 16 94 42 8 18 0 42-17 55-13 10-34 17-61 17-46 0-85-13-98-36-10-18 2-41 22-58z' fill='%231f1f1f'/><circle cx='122' cy='126' r='12' fill='%2396b34a'/><circle cx='156' cy='132' r='12' fill='%23f4efe3'/><circle cx='188' cy='124' r='12' fill='%23a65c2a'/><circle cx='142' cy='145' r='10' fill='%238a6a38'/><circle cx='176' cy='147' r='10' fill='%2396b34a'/><rect x='122' y='144' width='8' height='36' rx='4' fill='%230b0b0b'/><rect x='190' y='144' width='8' height='36' rx='4' fill='%230b0b0b'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Veggie &amp; Bean Potjie <span class="tag">Vegetarian</span></div>
         <div class="item-desc">Butternut, chickpeas, spinach, smoked paprika.</div>
@@ -409,6 +453,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 
   <div class="menu-grid" id="kota">
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Roker Kota" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23d6301b' stop-opacity='.18'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><rect x='58' y='74' width='204' height='90' rx='16' fill='%23a8672f'/><rect x='70' y='84' width='180' height='70' rx='12' fill='%23c99a1a'/><rect x='86' y='92' width='148' height='52' rx='10' fill='%23f4efe3'/><rect x='95' y='102' width='35' height='20' rx='8' fill='%23d6301b'/><rect x='132' y='98' width='34' height='28' rx='8' fill='%233b3b3b'/><rect x='168' y='102' width='38' height='20' rx='8' fill='%23e8b923'/><rect x='84' y='126' width='150' height='12' rx='6' fill='%23b45c2a'/><circle cx='238' cy='150' r='18' fill='%23d6301b'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Roker Kota <span class="tag spicy">Signature</span></div>
         <div class="item-desc">Quarter loaf, chips, polony, cheese, russian, atchar &amp; sauce.</div>
@@ -416,6 +464,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R60</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Vetkoek and Mince" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><circle cx='140' cy='126' r='52' fill='%23c99a1a'/><circle cx='140' cy='122' r='48' fill='%23f2c94c'/><path d='M172 114c14-10 40-12 56 0 18 14 20 38 6 54-12 14-34 20-52 14-14-4-24-16-24-30 0-16 6-28 14-38z' fill='%236b3f24'/><rect x='170' y='132' width='56' height='18' rx='8' fill='%23a65c2a'/><circle cx='158' cy='156' r='10' fill='%23d6301b'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Vetkoek &amp; Mince</div>
         <div class="item-desc">Fresh fried vetkoek stuffed with curried mince.</div>
@@ -423,6 +475,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R35</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Plain Vetkoek" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><circle cx='116' cy='122' r='34' fill='%23c99a1a'/><circle cx='116' cy='118' r='30' fill='%23f2c94c'/><circle cx='182' cy='120' r='34' fill='%23c99a1a'/><circle cx='182' cy='116' r='30' fill='%23f2c94c'/><circle cx='248' cy='122' r='34' fill='%23c99a1a'/><circle cx='248' cy='118' r='30' fill='%23f2c94c'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Plain Vetkoek (3 pcs)</div>
         <div class="item-desc">Straight out the pot, served warm.</div>
@@ -430,6 +486,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R25</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Bunny Chow" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23d6301b' stop-opacity='.18'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><rect x='74' y='72' width='160' height='96' rx='18' fill='%23a8672f'/><rect x='88' y='84' width='132' height='68' rx='12' fill='%23f4efe3'/><path d='M102 90h104v50H102z' fill='%23b45c2a'/><circle cx='132' cy='118' r='14' fill='%23d6301b'/><circle cx='160' cy='112' r='12' fill='%23c99a1a'/><circle cx='188' cy='120' r='14' fill='%233b3b3b'/><circle cx='154' cy='132' r='10' fill='%23f2c94c'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Bunny Chow <span class="tag spicy">Spicy</span></div>
         <div class="item-desc">Half loaf, mutton curry, sambals on the side.</div>
@@ -440,6 +500,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 
   <div class="menu-grid" id="sides">
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Pap and Chakalaka" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><ellipse cx='158' cy='124' rx='78' ry='40' fill='%23d6301b' opacity='.18'/><ellipse cx='160' cy='122' rx='70' ry='28' fill='%23f4efe3'/><ellipse cx='160' cy='116' rx='62' ry='18' fill='%23f2c94c'/><circle cx='124' cy='118' r='8' fill='%23d6301b'/><circle cx='146' cy='126' r='8' fill='%23a82212'/><circle cx='176' cy='122' r='8' fill='%23d6301b'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Pap &amp; Chakalaka</div>
         <div class="item-desc">Stywe pap, spiced tomato relish.</div>
@@ -447,6 +511,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R30</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Ujeqe steamed bread" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23c99a1a' stop-opacity='.16'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><ellipse cx='160' cy='128' rx='84' ry='42' fill='%23c99a1a'/><ellipse cx='160' cy='122' rx='72' ry='30' fill='%23f2c94c'/><path d='M122 120c20-16 56-16 76 0' stroke='%23e8b923' stroke-width='8' fill='none' stroke-linecap='round'/><path d='M116 136c20-12 68-12 88 0' stroke='%23d6301b' stroke-width='8' fill='none' stroke-linecap='round' opacity='.4'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Ujeqe (Steamed Bread)</div>
         <div class="item-desc">Soft steamed bread, served warm.</div>
@@ -454,6 +522,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R20</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Amagwinya Chips" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.22'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><rect x='88' y='82' width='144' height='82' rx='18' fill='%23c99a1a'/><rect x='100' y='92' width='120' height='62' rx='12' fill='%23f4efe3'/><path d='M118 110l18 30M142 108l18 30M166 110l18 30M190 108l18 30' stroke='%23d6301b' stroke-width='10' stroke-linecap='round'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Amagwinya Chips</div>
         <div class="item-desc">Vetkoek fingers, salt &amp; vinegar.</div>
@@ -464,6 +536,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 
   <div class="menu-grid" id="drinks">
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Ice cold soft drinks" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23d6301b' stop-opacity='.16'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><rect x='90' y='72' width='54' height='112' rx='14' fill='%23d6301b'/><rect x='96' y='90' width='42' height='76' rx='10' fill='%23f4efe3'/><rect x='132' y='84' width='54' height='102' rx='14' fill='%23e8b923'/><rect x='138' y='100' width='42' height='66' rx='10' fill='%23f4efe3'/><rect x='174' y='76' width='54' height='110' rx='14' fill='%231f1f1f'/><rect x='180' y='92' width='42' height='74' rx='10' fill='%23f4efe3'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Ice Cold Coke / Fanta / Sprite</div>
         <div class="item-desc">330ml can.</div>
@@ -471,6 +547,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R15</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Homemade Ginger Beer" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.18'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><path d='M126 74h68l-8 118h-52z' fill='%23c99a1a'/><path d='M136 86h48l-6 94h-36z' fill='%23f4efe3'/><circle cx='160' cy='106' r='18' fill='%23d6301b' opacity='.24'/><circle cx='160' cy='136' r='18' fill='%23d6301b' opacity='.18'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Homemade Ginger Beer</div>
         <div class="item-desc">Brewed in-house, served cold.</div>
@@ -478,6 +558,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <div class="item-price">R20</div>
     </div>
     <div class="menu-item">
+      <div class="item-photo">
+        <img alt="Rooibos Iced Tea" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23c99a1a' stop-opacity='.16'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><path d='M124 74h72l-10 118h-52z' fill='%23d6301b'/><path d='M134 86h52l-8 94h-36z' fill='%23f4efe3'/><path d='M144 116h32' stroke='%23e8b923' stroke-width='8' stroke-linecap='round'/><circle cx='182' cy='132' r='10' fill='%23e8b923'/></svg>">
+        <span class="photo-placeholder">Add photo</span>
+      </div>
       <div class="item-left">
         <div class="item-name">Rooibos Iced Tea</div>
         <div class="item-desc">Lightly sweetened, lemon slice.</div>
@@ -498,7 +582,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
         <div class="loc-icon">📍</div>
         <div>
           <h4>Pickup Point</h4>
-          <p>Roker Street corner stand<br>Message us on WhatsApp for the exact spot</p>
+          <p>7 Elland Rd, Weltevreden Valley North<br>Cape Town, 7784</p>
         </div>
       </div>
 
@@ -523,6 +607,17 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <h3>Order on WhatsApp</h3>
       <p>Send us your order and pickup time — we'll confirm and get the pot going.</p>
       <div class="wa-number">076 726 2115</div>
+      <div class="map-frame" aria-label="Map showing 7 Elland Rd, Weltevreden Valley North, Cape Town, 7784">
+        <iframe
+          title="Roker Eats location map"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=7%20Elland%20Rd%2C%20Weltevreden%20Valley%20North%2C%20Cape%20Town%2C%207784&output=embed">
+        </iframe>
+      </div>
+      <div class="map-actions">
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=7%20Elland%20Rd%2C%20Weltevreden%20Valley%20North%2C%20Cape%20Town%2C%207784" target="_blank" rel="noopener">Open in Maps</a>
+      </div>
       <a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="btn-primary">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
         Message Now
