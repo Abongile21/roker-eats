@@ -208,6 +208,35 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   width:100%;height:100%;object-fit:cover;display:block;
   filter:none;opacity:1;mix-blend-mode:normal;
 }
+
+.menu-item.menu-text{
+  grid-template-columns:86px minmax(0,1fr) auto;
+}
+.menu-mark{
+  width:86px;height:72px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ink);color:var(--gold);
+  font-family:'Anton',sans-serif;font-size:1.05rem;
+  text-transform:uppercase;letter-spacing:.04em;
+  border:1px solid rgba(20,20,20,.12);
+}
+.menu-note strong{color:var(--red-deep);}
+.menu-subnote{
+  margin:-10px auto 28px;max-width:760px;text-align:center;
+  color:#6b6155;font-size:.9rem;line-height:1.5;
+}
+.price-stack{
+  display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+}
+.price-stack .price-label{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:#6b6155;text-transform:uppercase;
+}
+@media (max-width:560px){
+  .menu-item.menu-text{grid-template-columns:1fr;gap:12px;}
+  .menu-mark{width:100%;height:62px;}
+  .price-stack{align-items:flex-start;}
+}
 .item-photo .photo-placeholder{display:none !important;}
 .item-left{max-width:560px;}
 .item-name{font-family:'Anton', sans-serif;font-weight:400;font-size:1.25rem;color:var(--ink);display:flex;align-items:center;gap:10px;letter-spacing:0.01em;text-transform:none;}
@@ -396,149 +425,205 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <p>Everything's dished fresh to order. Message us your pick on WhatsApp and we'll confirm your time.</p>
   </div>
 
-  <div class="menu-note reveal" style="text-align:center;max-width:640px;margin:0 auto 28px;font-family:'Anton',sans-serif;font-size:1.05rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.02em;">All plates comes with seasonal veggies and salads.</div>
+  <div class="menu-note reveal" style="text-align:center;max-width:760px;margin:0 auto 12px;font-family:'Anton',sans-serif;font-size:1.05rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.02em;">
+    Menu updated from the current Roker Eats board.
+  </div>
+
+  <div class="menu-subnote reveal">
+    Kota and Gatsby come with lettuce and tomato. Prices and item names below are kept from the menu board.
+  </div>
 
   <div class="tabs reveal" role="tablist" aria-label="Menu categories">
-    <button class="tab-btn active" data-tab="plates" role="tab" aria-selected="true">Menu</button>
+    <button class="tab-btn active" data-tab="chips" role="tab" aria-selected="true">Chips</button>
+    <button class="tab-btn" data-tab="vetkoek" role="tab" aria-selected="false">Vetkoek</button>
+    <button class="tab-btn" data-tab="kota" role="tab" aria-selected="false">Kota</button>
+    <button class="tab-btn" data-tab="gatsby" role="tab" aria-selected="false">Gatsby</button>
+    <button class="tab-btn" data-tab="burgers" role="tab" aria-selected="false">Burgers</button>
+    <button class="tab-btn" data-tab="chicken" role="tab" aria-selected="false">Chicken &amp; Chips</button>
+    <button class="tab-btn" data-tab="family" role="tab" aria-selected="false">Family Treat</button>
+    <button class="tab-btn" data-tab="existing" role="tab" aria-selected="false">More</button>
     <button class="tab-btn" data-tab="drinks" role="tab" aria-selected="false">Drinks</button>
   </div>
 
-  <div class="menu-grid active" id="plates">
+  <div class="menu-grid active" id="chips">
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Chips</div>
+      <div class="item-left"><div class="item-name">Small</div></div>
+      <div class="item-price">R12</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Chips</div>
+      <div class="item-left"><div class="item-name">Medium</div></div>
+      <div class="item-price">R18</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Chips</div>
+      <div class="item-left"><div class="item-name">Large</div></div>
+      <div class="item-price">R25</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Roll</div>
+      <div class="item-left"><div class="item-name">Chip Roll</div></div>
+      <div class="item-price">R15</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Combo</div>
+      <div class="item-left"><div class="item-name">Chip Roll Combo</div></div>
+      <div class="item-price">R35</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="vetkoek">
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Plain</div></div><div class="item-price">R5</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Polony</div></div><div class="item-price">R7</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Sausage</div></div><div class="item-price">R15</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Burger</div></div><div class="item-price">R18</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Russian</div></div><div class="item-price">R15</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Special</div><div class="item-left"><div class="item-name">Jamie Special</div><div class="item-desc">Chips &amp; Russian</div></div><div class="item-price">R20</div></div>
+  </div>
+
+  <div class="menu-grid" id="kota">
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Kota</div>
+      <div class="item-left"><div class="item-name">Basic</div><div class="item-desc">Egg, Russian, cheese and chips.</div></div>
+      <div class="item-price">R35</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Kota</div>
+      <div class="item-left"><div class="item-name">Club</div><div class="item-desc">Burger, cheese, egg and chips.</div></div>
+      <div class="item-price">R50</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Kota</div>
+      <div class="item-left"><div class="item-name">Classic</div><div class="item-desc">Burger, cheese, avo, Russian and chips.</div></div>
+      <div class="item-price">R60</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="gatsby">
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Gatsby</div>
+      <div class="item-left"><div class="item-name">Russian &amp; Cheese</div><div class="item-desc">Comes with lettuce and tomato.</div></div>
+      <div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R50</span><span class="price-label">Large</span><span class="item-price">R100</span></div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Gatsby</div>
+      <div class="item-left"><div class="item-name">Chicken</div><div class="item-desc">Comes with lettuce and tomato.</div></div>
+      <div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R60</span><span class="price-label">Large</span><span class="item-price">R120</span></div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Gatsby</div>
+      <div class="item-left"><div class="item-name">Fish — Hake &amp; Chips</div><div class="item-desc">Comes with lettuce and tomato.</div></div>
+      <div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R60 / R120</span><span class="price-label">Mid</span><span class="item-price">R240</span></div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="burgers">
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Burger</div>
+      <div class="item-left"><div class="item-name">Classic</div><div class="item-desc">Lettuce, tomato, patty, BBQ sauce, onion and chips.</div></div>
+      <div class="item-price">R35</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Burger</div>
+      <div class="item-left"><div class="item-name">Cheese Bug</div><div class="item-desc">Lettuce, tomato, patty, onion, BBQ sauce, cheese and chips.</div></div>
+      <div class="item-price">R40</div>
+    </div>
+    <div class="menu-item menu-text">
+      <div class="menu-mark">Burger</div>
+      <div class="item-left"><div class="item-name">Roker Burg</div><div class="item-desc">Lettuce, tomato, patty, onion, BBQ sauce, cheese, avo and chips.</div></div>
+      <div class="item-price">R65</div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="chicken">
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">1 Pc &amp; Chips</div></div><div class="item-price">R25</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">2 Pc &amp; Chips</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">3 Pc &amp; Chips</div></div><div class="item-price">R60</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">4 Pc &amp; Chips</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">6 Pc &amp; Chips</div></div><div class="item-price">R80</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">¼ Leg &amp; Chips</div></div><div class="item-price">R45</div></div>
+  </div>
+
+  <div class="menu-grid" id="family">
+    <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">2 × ¼ + 4 Wings</div></div><div class="item-price">R150</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">4 × ¼ Legs + 8 Wings</div></div><div class="item-price">R300</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">12 Wings</div></div><div class="item-price">R140</div></div>
+  </div>
+
+  <div class="menu-grid" id="existing">
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="BBQ Grilled Chicken, Sausage and Chips" src="images/BBQ grilled chicken, sausage and chips.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">BBQ Grilled Chicken, Sausage &amp; Chips</div>
-        <div class="item-desc">Flame-grilled chicken, boerewors, golden chips.</div>
-      </div>
+      <div class="item-photo"><img alt="BBQ Grilled Chicken, Sausage and Chips" src="images/BBQ grilled chicken, sausage and chips.jpeg"></div>
+      <div class="item-left"><div class="item-name">BBQ Grilled Chicken, Sausage &amp; Chips</div><div class="item-desc">Flame-grilled chicken, boerewors, golden chips.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Quarter Leg and Chips Plate" src="images/quater leg and chips plate.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">1/4 Leg &amp; Chips Plate</div>
-        <div class="item-desc">Quarter chicken leg, seasoned and grilled, with chips.</div>
-      </div>
+      <div class="item-photo"><img alt="Quarter Leg and Chips Plate" src="images/quater leg and chips plate.jpeg"></div>
+      <div class="item-left"><div class="item-name">1/4 Leg &amp; Chips Plate</div><div class="item-desc">Quarter chicken leg, seasoned and grilled, with chips.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Steamed Bread and Beef Plate" src="images/Steamed bread and Beef plate.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Steamed Bread &amp; Beef Plate</div>
-        <div class="item-desc">Soft steamed bread with slow-cooked beef stew.</div>
-      </div>
+      <div class="item-photo"><img alt="Steamed Bread and Beef Plate" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Steamed Bread &amp; Beef Plate</div><div class="item-desc">Soft steamed bread with slow-cooked beef stew.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Samp and Beef Plate" src="images/Samp and Beef plate.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Samp &amp; Beef Plate</div>
-        <div class="item-desc">Slow-cooked samp with tender beef stew.</div>
-      </div>
+      <div class="item-photo"><img alt="Samp and Beef Plate" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Samp &amp; Beef Plate</div><div class="item-desc">Slow-cooked samp with tender beef stew.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Jumbo Chicken Gatsby" src="images/jumbo_chicken_gatsby.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Jumbo Chicken Gatsby</div>
-        <div class="item-desc">Loaded roll with grilled chicken, chips &amp; sauce.</div>
-      </div>
+      <div class="item-photo"><img alt="Jumbo Chicken Gatsby" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Jumbo Chicken Gatsby</div><div class="item-desc">Loaded roll with grilled chicken, chips &amp; sauce.</div></div>
       <div class="item-price">R130</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Sunday Special" src="images/Sunday Special.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Sunday Special</div>
-        <div class="item-desc">A hearty Sunday-style plate, ask us what's cooking.</div>
-      </div>
+      <div class="item-photo"><img alt="Sunday Special" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Sunday Special</div><div class="item-desc">A hearty Sunday-style plate, ask us what's cooking.</div></div>
       <div class="item-price">R85</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Babalaz Plate, Spicy Fried Rice and Spicy Beef" src="images/Babalaz plate ( Spicy Fried rice and spicy beef).jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Babalaz Plate <span class="tag spicy">Spicy</span></div>
-        <div class="item-desc">Spicy fried rice with spicy beef.</div>
-      </div>
+      <div class="item-photo"><img alt="Babalaz Plate, Spicy Fried Rice and Spicy Beef" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Babalaz Plate <span class="tag spicy">Spicy</span></div><div class="item-desc">Spicy fried rice with spicy beef.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Chicken and Creamy Mash Potato" src="images/Chicken and creamy mash potato.jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Chicken &amp; Creamy Mash Potato</div>
-        <div class="item-desc">Grilled chicken served with rich creamy mash.</div>
-      </div>
+      <div class="item-photo"><img alt="Chicken and Creamy Mash Potato" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Chicken &amp; Creamy Mash Potato</div><div class="item-desc">Grilled chicken served with rich creamy mash.</div></div>
       <div class="item-price">R70</div>
     </div>
     <div class="menu-item">
-      <div class="item-photo">
-        <img alt="Friday Full House, Steak Sausage and Chicken" src="images/Friday  full house ( steak, sausage and chicken).jpeg">
-        <span class="photo-placeholder">Add photo</span>
-      </div>
-      <div class="item-left">
-        <div class="item-name">Friday Full House <span class="tag">Signature</span></div>
-        <div class="item-desc">Steak, sausage &amp; chicken, all on one plate.</div>
-      </div>
+      <div class="item-photo"><img alt="Friday Full House, Steak Sausage and Chicken" src="images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp"></div>
+      <div class="item-left"><div class="item-name">Friday Full House <span class="tag">Signature</span></div><div class="item-desc">Steak, sausage &amp; chicken, all on one plate.</div></div>
       <div class="item-price">R85</div>
     </div>
   </div>
+
   <div class="menu-grid" id="drinks">
     <div class="menu-item">
       <div class="item-photo">
         <img alt="Ice cold soft drinks" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23d6301b' stop-opacity='.16'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><rect x='90' y='72' width='54' height='112' rx='14' fill='%23d6301b'/><rect x='96' y='90' width='42' height='76' rx='10' fill='%23f4efe3'/><rect x='132' y='84' width='54' height='102' rx='14' fill='%23e8b923'/><rect x='138' y='100' width='42' height='66' rx='10' fill='%23f4efe3'/><rect x='174' y='76' width='54' height='110' rx='14' fill='%231f1f1f'/><rect x='180' y='92' width='42' height='74' rx='10' fill='%23f4efe3'/></svg>">
-        <span class="photo-placeholder">Add photo</span>
       </div>
-      <div class="item-left">
-        <div class="item-name">Ice Cold Coke / Fanta / Sprite</div>
-        <div class="item-desc">330ml can.</div>
-      </div>
+      <div class="item-left"><div class="item-name">Ice Cold Coke / Fanta / Sprite</div><div class="item-desc">330ml can.</div></div>
       <div class="item-price">R15</div>
     </div>
     <div class="menu-item">
       <div class="item-photo">
         <img alt="Homemade Ginger Beer" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23e8b923' stop-opacity='.18'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><path d='M126 74h68l-8 118h-52z' fill='%23c99a1a'/><path d='M136 86h48l-6 94h-36z' fill='%23f4efe3'/><circle cx='160' cy='106' r='18' fill='%23d6301b' opacity='.24'/><circle cx='160' cy='136' r='18' fill='%23d6301b' opacity='.18'/></svg>">
-        <span class="photo-placeholder">Add photo</span>
       </div>
-      <div class="item-left">
-        <div class="item-name">Homemade Ginger Beer</div>
-        <div class="item-desc">Brewed in-house, served cold.</div>
-      </div>
+      <div class="item-left"><div class="item-name">Homemade Ginger Beer</div><div class="item-desc">Brewed in-house, served cold.</div></div>
       <div class="item-price">R20</div>
     </div>
     <div class="menu-item">
       <div class="item-photo">
         <img alt="Rooibos Iced Tea" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 236'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23f5f1e8'/><stop offset='100%25' stop-color='%23c99a1a' stop-opacity='.16'/></linearGradient></defs><rect width='320' height='236' fill='url(%23g)'/><path d='M124 74h72l-10 118h-52z' fill='%23d6301b'/><path d='M134 86h52l-8 94h-36z' fill='%23f4efe3'/><path d='M144 116h32' stroke='%23e8b923' stroke-width='8' stroke-linecap='round'/><circle cx='182' cy='132' r='10' fill='%23e8b923'/></svg>">
-        <span class="photo-placeholder">Add photo</span>
       </div>
-      <div class="item-left">
-        <div class="item-name">Rooibos Iced Tea</div>
-        <div class="item-desc">Lightly sweetened, lemon slice.</div>
-      </div>
+      <div class="item-left"><div class="item-name">Rooibos Iced Tea</div><div class="item-desc">Lightly sweetened, lemon slice.</div></div>
       <div class="item-price">R18</div>
     </div>
   </div>
+
 </section>
 
 <!-- ================= ORDER + LOCATION ================= -->
