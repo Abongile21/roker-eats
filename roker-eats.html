@@ -171,22 +171,6 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-head .eyebrow::before{background:var(--red-deep);}
 .menu-head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);line-height:1;}
 .menu-head p{margin-top:16px;color:#5c5347;font-size:1.02rem;line-height:1.6;}
-.menu-board{max-width:1100px;margin:0 auto;padding:0 32px;}
-.menu-board a{display:block;background:#101010;border:1px solid rgba(20,20,20,.16);box-shadow:0 18px 46px -32px rgba(20,20,20,.55);}
-.menu-board img{display:block;width:100%;height:auto;}
-.menu-gallery{max-width:1100px;margin:64px auto 0;padding:0 32px;}
-.menu-gallery h3{font-size:1.8rem;margin-bottom:20px;}
-.food-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
-.food-photo{position:relative;min-height:220px;overflow:hidden;background:var(--ink);}
-.food-photo img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover;transition:transform .45s ease;}
-.food-photo:hover img{transform:scale(1.04);}
-.food-photo figcaption{position:absolute;inset:auto 0 0;padding:28px 16px 14px;color:#fff;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,.82));}
-@media (max-width:700px){
-  .food-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
-  .food-photo,.food-photo img{min-height:160px;}
-  .menu-board,.menu-gallery{padding-left:16px;padding-right:16px;}
-}
-@media (max-width:420px){.food-gallery{grid-template-columns:1fr;}}
 
 .tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:40px 0 8px;}
 .tab-btn{
@@ -437,26 +421,96 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 <section class="menu-section" id="menu">
   <div class="menu-head reveal">
     <div class="eyebrow">The Menu</div>
-    <h2>Good food. Great taste.</h2>
-    <p>Browse the latest menu, then message us your order on WhatsApp.</p>
+    <h2>Cooked in the pot, not the fryer.</h2>
+    <p>Everything's dished fresh to order. Message us your pick on WhatsApp and we'll confirm your time.</p>
   </div>
 
-  <figure class="menu-board reveal">
-    <a href="images/2.png" target="_blank" rel="noopener" aria-label="Open the full-size Roker Eats menu">
-      <img src="images/2.png" alt="Roker Eats menu board with food, drinks, and current prices" loading="lazy">
-    </a>
-  </figure>
+  <div class="menu-subnote reveal">Menu items and prices from the latest Roker Eats menu.</div>
 
-  <div class="menu-gallery reveal">
-    <h3>From the kitchen</h3>
-    <div class="food-gallery">
-      <figure class="food-photo"><img src="images/roker-kota.jpeg" alt="Loaded Roker kota" loading="lazy"><figcaption>Roker Kota</figcaption></figure>
-      <figure class="food-photo"><img src="images/club%20burger.jpeg" alt="Club burger with chips" loading="lazy"><figcaption>Burgers</figcaption></figure>
-      <figure class="food-photo"><img src="images/regular_chicken_gatsby.jpeg" alt="Chicken Gatsby" loading="lazy"><figcaption>Chicken Gatsby</figcaption></figure>
-      <figure class="food-photo"><img src="images/BBQ%20grilled%20chicken,%20sausage%20and%20chips.jpeg" alt="Grilled chicken, sausage and chips" loading="lazy"><figcaption>Grilled Plates</figcaption></figure>
-      <figure class="food-photo"><img src="images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg" alt="Spicy fried rice and beef plate" loading="lazy"><figcaption>Babalaz Plate</figcaption></figure>
-      <figure class="food-photo"><img src="images/Sunday%20Special.jpeg" alt="Sunday special sharing plate" loading="lazy"><figcaption>Sunday Special</figcaption></figure>
-    </div>
+  <div class="tabs reveal" role="tablist" aria-label="Menu categories">
+    <button class="tab-btn active" data-tab="chips" role="tab" aria-selected="true">Chips</button>
+    <button class="tab-btn" data-tab="vetkoek" role="tab" aria-selected="false">Vetkoek</button>
+    <button class="tab-btn" data-tab="kota" role="tab" aria-selected="false">Kota</button>
+    <button class="tab-btn" data-tab="burgers" role="tab" aria-selected="false">Burgers</button>
+    <button class="tab-btn" data-tab="chicken" role="tab" aria-selected="false">Chicken &amp; Chips</button>
+    <button class="tab-btn" data-tab="family" role="tab" aria-selected="false">Family Treat</button>
+    <button class="tab-btn" data-tab="more" role="tab" aria-selected="false">Gatsby &amp; Plates</button>
+    <button class="tab-btn" data-tab="drinks" role="tab" aria-selected="false">Drinks</button>
+  </div>
+
+  <div class="menu-grid active" id="chips">
+    <div class="menu-item menu-text"><div class="menu-mark">Chips</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R14</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chips</div><div class="item-left"><div class="item-name">Medium</div></div><div class="item-price">R20</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chips</div><div class="item-left"><div class="item-name">Large</div></div><div class="item-price">R28</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Roll</div><div class="item-left"><div class="item-name">Chip Roll</div></div><div class="item-price">R17</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Combo</div><div class="item-left"><div class="item-name">Chip Roll Combo</div></div><div class="item-price">R26</div></div>
+  </div>
+
+  <div class="menu-grid" id="vetkoek">
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Plain Big</div></div><div class="item-price">R5</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Polony</div></div><div class="item-price">R7</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Russian</div></div><div class="item-price">R17</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Chips</div></div><div class="item-price">R20</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Burger</div></div><div class="item-price">R20</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Special</div><div class="item-left"><div class="item-name">Jamie</div><div class="item-desc">Chips &amp; Russian</div></div><div class="item-price">R27</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Chips &amp; Burger</div></div><div class="item-price">R27</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Taccos</div><div class="item-desc">Chips, burger &amp; egg</div></div><div class="item-price">R32</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Big Daddy</div></div><div class="item-price">R35</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Mama B</div></div><div class="item-price">R35/R40</div></div>
+  </div>
+
+  <div class="menu-grid" id="kota">
+    <div class="menu-item"><div class="item-photo"><img alt="Kota filled with chips and toppings" src="images/roker-kota.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Kota</div><div class="item-left"><div class="item-name">Classic</div></div><div class="item-price">R55</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Kota</div><div class="item-left"><div class="item-name">Club</div></div><div class="item-price">R70</div></div>
+  </div>
+
+  <div class="menu-grid" id="burgers">
+    <div class="menu-item"><div class="item-photo"><img alt="Burger with chips" src="images/club%20burger.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Burger</div><div class="item-left"><div class="item-name">Cheese Burger</div></div><div class="item-price">R45</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Burger</div><div class="item-left"><div class="item-name">Roker Burger</div></div><div class="item-price">R70</div></div>
+  </div>
+
+  <div class="menu-grid" id="chicken">
+    <div class="menu-item"><div class="item-photo"><img alt="Quarter leg and chips" src="images/quater%20leg%20and%20chips%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">1/4 Leg</div></div><div class="item-price">R45</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">1 Piece</div></div><div class="item-price">R27</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">2 Piece</div></div><div class="item-price">R45</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">3 Piece</div></div><div class="item-price">R60</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">4 Piece</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">5 Piece</div></div><div class="item-price">R80</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">6 Piece</div></div><div class="item-price">R90</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Extra</div><div class="item-left"><div class="item-name">Extra 1 Piece</div><div class="item-desc">Wings/drumstick R10; thigh/breast R15</div></div><div class="item-price">R10/R15</div></div>
+  </div>
+
+  <div class="menu-grid" id="family">
+    <div class="menu-item"><div class="item-photo"><img alt="Chicken and wings family plate" src="images/Sunday%20Special.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">2 x 1/4 Legs + 4 Wings</div></div><div class="item-price">R160</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">4 x 1/4 Legs + 4 Wings</div></div><div class="item-price">R300</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">12 Wings + Chip</div></div><div class="item-price">R160</div></div>
+  </div>
+
+  <div class="menu-grid" id="more">
+    <div class="menu-item"><div class="item-photo"><img alt="Chicken Gatsby roll" src="images/regular_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Russian &amp; Cheese Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R65</span><span class="price-label">Large</span><span class="item-price">R110</span></div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Jumbo chicken Gatsby roll" src="images/jumbo_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Chicken Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R60</span><span class="price-label">Large</span><span class="item-price">R130</span></div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Gatsby</div><div class="item-left"><div class="item-name">Steak Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R70</span><span class="price-label">Large</span><span class="item-price">R140</span></div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Spicy fried rice and beef plate" src="images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Rice &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Pap &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Samp and beef plate" src="images/Samp%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Samp &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Steamed bread and beef plate" src="images/Steamed%20bread%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Steamed Bread &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Tripe with steamed bread" src="images/Steamed%20bread%20and%20tripe.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Tripe &amp; Any Starch</div></div><div class="item-price">R65</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">Mini Hake Parcel</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">Hake Parcel</div></div><div class="item-price">R60</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">2 Piece Hake</div></div><div class="item-price">R90</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">3 Piece Hake</div></div><div class="item-price">R100</div></div>
+    <div class="menu-subnote">NB: All 7 colour plates come with 4 sides.</div>
+  </div>
+
+  <div class="menu-grid" id="drinks">
+    <div class="menu-item"><div class="item-photo"><img alt="Jive soft drink" src="images/jive.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Flavoured Water</div></div><div class="item-price">R10</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Score energy drink" src="images/score.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R11</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Pepsi</div></div><div class="item-price">R9</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Coke</div></div><div class="item-price">R13</div></div>
   </div>
 
 </section>
