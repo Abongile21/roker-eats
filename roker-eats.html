@@ -432,9 +432,11 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <button class="tab-btn" data-tab="vetkoek" role="tab" aria-selected="false">Vetkoek</button>
     <button class="tab-btn" data-tab="kota" role="tab" aria-selected="false">Kota</button>
     <button class="tab-btn" data-tab="burgers" role="tab" aria-selected="false">Burgers</button>
-    <button class="tab-btn" data-tab="chicken" role="tab" aria-selected="false">Grilled Chicken &amp; Chips</button>
+    <button class="tab-btn" data-tab="chicken" role="tab" aria-selected="false">Chicken &amp; Chips</button>
     <button class="tab-btn" data-tab="family" role="tab" aria-selected="false">Family Treat</button>
-    <button class="tab-btn" data-tab="plates" role="tab" aria-selected="false">7 Colour Plate</button>
+    <button class="tab-btn" data-tab="more" role="tab" aria-selected="false">Gatsby</button>
+    <button class="tab-btn" data-tab="seven-plate" role="tab" aria-selected="false">Plates</button>
+    <button class="tab-btn" data-tab="fish" role="tab" aria-selected="false">Fish &amp; Chips</button>
     <button class="tab-btn" data-tab="drinks" role="tab" aria-selected="false">Drinks</button>
   </div>
 
@@ -447,7 +449,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-grid" id="vetkoek">
-    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R15</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Plain Big</div></div><div class="item-price">R5</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Polony</div></div><div class="item-price">R7</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Russian</div></div><div class="item-price">R17</div></div>
@@ -489,19 +491,32 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">12 Wings + Chip</div></div><div class="item-price">R160</div></div>
   </div>
 
-  <div class="menu-grid" id="plates">
-    <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Rice &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+  <div class="menu-grid" id="more">
+    <div class="menu-item"><div class="item-photo"><img alt="Chicken Gatsby roll" src="images/regular_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Russian &amp; Cheese Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R55</span><span class="price-label">Large</span><span class="item-price">R110</span></div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Jumbo chicken Gatsby roll" src="images/jumbo_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Chicken Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R65</span><span class="price-label">Large</span><span class="item-price">R130</span></div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Gatsby</div><div class="item-left"><div class="item-name">Steak Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R70</span><span class="price-label">Large</span><span class="item-price">R140</span></div></div>
+  </div>
+
+  <div class="menu-grid" id="seven-plate">
+    <div class="menu-item"><div class="item-photo"><img alt="Spicy fried rice and beef plate" src="images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Rice &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Pap &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Samp &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Steamed Bread &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Triple</div><div class="item-left"><div class="item-name">Triple &amp; Any Starch</div></div><div class="item-price">R65</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Samp and beef plate" src="images/Samp%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Samp &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Steamed bread and beef plate" src="images/Steamed%20bread%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Steamed Bread &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Tripe with steamed bread" src="images/Steamed%20bread%20and%20tripe.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Tripe &amp; Any Starch</div></div><div class="item-price">R65</div></div>
     <div class="menu-subnote">NB: All 7 colour plates come with 4 sides.</div>
   </div>
 
+  <div class="menu-grid" id="fish">
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">Mini Hake Parcel</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">Hake Parcel</div></div><div class="item-price">R60</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">2 Piece Hake</div></div><div class="item-price">R90</div></div>
+    <div class="menu-item menu-text"><div class="menu-mark">Fish</div><div class="item-left"><div class="item-name">3 Piece Hake</div></div><div class="item-price">R100</div></div>
+  </div>
+
   <div class="menu-grid" id="drinks">
-    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Jive soft drink" src="images/jive.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Flavoured Water</div></div><div class="item-price">R12</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
+    <div class="menu-item"><div class="item-photo"><img alt="Score energy drink" src="images/score.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Pepsi</div></div><div class="item-price">R13</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Coke</div></div><div class="item-price">R13</div></div>
   </div>
