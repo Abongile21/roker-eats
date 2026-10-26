@@ -43,6 +43,11 @@ body::before{
   *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
 }
 a{color:inherit;text-decoration:none;}
+button,input{font:inherit;}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+.skip-link{position:absolute;left:16px;top:-60px;z-index:1002;background:var(--gold);color:var(--ink);padding:10px 16px;border-radius:0 0 8px 8px;font-weight:700;}
+.skip-link:focus{top:0;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 .wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
 
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(.22,.9,.34,1), transform 0.7s cubic-bezier(.22,.9,.34,1);}
@@ -71,13 +76,17 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .nav-links a:hover::after,.nav-links a.active-link::after{width:100%;}
 .nav-links a:hover,.nav-links a.active-link{color:var(--gold);}
 .wa-btn{
-  background:#25D366;color:#0B1B10;padding:11px 22px;border-radius:100px;
+  background:var(--gold);color:var(--ink);padding:11px 22px;border-radius:100px;
   font-weight:700;font-size:0.88rem;display:inline-flex;align-items:center;gap:8px;
   transition:transform 0.2s ease, box-shadow 0.2s ease;
 }
-.wa-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(37,211,102,0.6);}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(232,185,35,0.6);}
 .wa-btn svg{width:18px;height:18px;flex-shrink:0;}
-
+.menu-toggle{
+  display:none;background:transparent;border:1px solid rgba(244,239,227,.25);color:var(--cream);
+  border-radius:999px;padding:9px 14px;font-weight:700;cursor:pointer;
+}
+.menu-toggle[aria-expanded="true"]{border-color:var(--gold);color:var(--gold);}
 /* ---------- HERO ---------- */
 .hero{
   position:relative;min-height:100vh;
@@ -173,6 +182,14 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-head p{margin-top:16px;color:#5c5347;font-size:1.02rem;line-height:1.6;}
 
 .tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:40px 0 10px;padding:0 16px;}
+.menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;justify-content:flex-end;}
+.menu-search{
+  width:min(100%,360px);padding:13px 17px;border-radius:999px;
+  border:1.5px solid rgba(20,20,20,.22);background:rgba(255,255,255,.55);color:var(--ink);
+}
+.menu-search::placeholder{color:#6b6155;}
+.search-empty{display:none;max-width:980px;margin:30px auto 0;padding:24px 32px;text-align:center;color:#6b6155;}
+.search-empty.visible{display:block;}
 .tab-btn{
   font-family:'JetBrains Mono', monospace;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;
   background:rgba(255,255,255,0.2);border:1.5px solid rgba(20,20,20,0.18);color:var(--ink);
@@ -184,8 +201,22 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 
 .menu-grid{max-width:980px;margin:30px auto 0;padding:0 32px;display:none;}
 .menu-grid.active{display:block;}
+.category-visual{
+  height:220px;margin-bottom:22px;border-radius:22px;overflow:hidden;
+  background:var(--ink);border:1px solid rgba(20,20,20,.14);position:relative;
+}
+.category-visual::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(20,20,20,.58),rgba(20,20,20,.05));
+}
+.category-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+.category-visual span{
+  position:absolute;left:24px;bottom:18px;z-index:1;color:var(--cream);
+  font-family:'Anton',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
+  text-transform:uppercase;letter-spacing:.02em;
+}
 .menu-item{
-  display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:18px;align-items:center;
+  display:grid;grid-template-columns:150px minmax(0,1fr) auto auto;gap:18px;align-items:center;
   padding:18px 20px;border:1px solid rgba(20,20,20,0.10);border-radius:18px;margin:0 0 16px;
   position:relative;opacity:0;transform:translateY(16px);
   animation:item-in 0.55s cubic-bezier(.22,.9,.34,1) forwards;
@@ -199,6 +230,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-item:nth-child(4){animation-delay:0.32s;}
 .menu-item:nth-child(5){animation-delay:0.41s;}
 .menu-item:last-child{margin-bottom:0;}
+.item-photo .photo-placeholder{display:none !important;}
 .item-photo{
   width:150px;height:118px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;
   background:transparent;border:1px solid rgba(20,20,20,0.08);
@@ -210,8 +242,14 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 }
 
 .menu-item.menu-text{
-  grid-template-columns:92px minmax(0,1fr) auto;
+  grid-template-columns:92px minmax(0,1fr) auto auto;
 }
+.menu-grid:not(#drinks) .menu-item{grid-template-columns:minmax(0,1fr) auto auto;}
+.menu-grid:not(#drinks) .menu-item.menu-text{grid-template-columns:minmax(0,1fr) auto auto;}
+.menu-grid:not(#drinks) .item-photo{display:none;}
+.menu-grid#drinks .menu-item{grid-template-columns:150px minmax(0,1fr) auto auto;}
+.menu-grid#drinks .menu-item.menu-text{grid-template-columns:150px minmax(0,1fr) auto auto;}
+.menu-mark{display:none !important;}
 .menu-mark{
   width:92px;height:64px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;
@@ -257,6 +295,12 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   transition:transform 0.3s cubic-bezier(.34,1.56,.64,1), color 0.3s ease;
 }
 .menu-item:hover .item-price{transform:scale(1.12);color:var(--red);}
+.item-order{
+  border:0;background:var(--red);color:var(--cream);padding:10px 14px;border-radius:999px;
+  font-size:.78rem;font-weight:700;white-space:nowrap;cursor:pointer;
+  transition:background .2s ease,transform .2s ease;
+}
+.item-order:hover{background:var(--red-deep);transform:translateY(-2px);}
 
 /* ---------- ORDER / LOCATION ---------- */
 .location-section{background:var(--ink);position:relative;padding:110px 0 100px;}
@@ -335,34 +379,49 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   .hero-inner{grid-template-columns:1fr;text-align:left;}
   .pot-wrap{order:-1;max-width:260px;margin:0 auto 10px;}
   .loc-grid{grid-template-columns:1fr;gap:44px;}
-  .nav-links{display:none;}
+  .nav{position:relative;}
+  .menu-toggle{display:block;margin-left:auto;margin-right:10px;}
+  .nav-links{
+    display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
+    flex-direction:column;gap:0;padding:8px 32px 16px;background:rgba(20,20,20,.98);
+    border-bottom:1px solid rgba(232,185,35,.18);
+  }
+  .nav-links.open{display:flex;}
+  .nav-links a{padding:14px 0;}
 }
 @media (max-width: 560px){
   .hero{padding-top:120px;}
   .menu-item{grid-template-columns:1fr;gap:14px;}
+  .menu-grid:not(#drinks) .menu-item{grid-template-columns:1fr;gap:14px;}
+  .menu-grid#drinks .menu-item{grid-template-columns:1fr;gap:14px;}
+  .category-visual{height:170px;}
   .item-photo{width:100%;height:190px;}
   .item-price{justify-self:start;text-align:left;}
   .item-price{font-size:0.95rem;}
+  .item-order{justify-self:start;}
+  .menu-tools{padding:0 20px;}
+  .menu-search{width:100%;}
+  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:0 20px 8px;scrollbar-width:thin;}
+  .tab-btn{flex:0 0 auto;}
+  .search-empty{padding:24px 20px;}
   .footer-inner{flex-direction:column;align-items:flex-start;}
   .wa-btn span{display:none;}
 }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#menu">Skip to menu</a>
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <header>
   <nav class="nav">
     <div class="logo">Roker<span class="stroke">/</span>Eats</div>
-    <div class="nav-links">
+    <div class="nav-links" id="site-nav">
       <a href="#menu">Menu</a>
       <a href="#order">Order</a>
       <a href="#location">Find Us</a>
     </div>
-    <a href="https://wa.me/27767262115?text=Hi%20Roker%20Eats%2C%20I%27d%20like%20to%20order" target="_blank" rel="noopener" class="wa-btn">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
-      <span>WhatsApp</span>
-    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
   </nav>
 </header>
 
@@ -428,6 +487,10 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-subnote reveal">Menu items and prices from the latest Roker Eats menu.</div>
+  <div class="menu-tools">
+    <label class="sr-only" for="menuSearch">Search menu items</label>
+    <input class="menu-search" id="menuSearch" type="search" placeholder="Search this category..." autocomplete="off">
+  </div>
 
   <div class="tabs reveal" role="tablist" aria-label="Menu categories">
     <button class="tab-btn active" data-tab="chips" role="tab" aria-selected="true">Chips</button>
@@ -449,6 +512,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <div class="menu-item menu-text"><div class="menu-mark">Roll</div><div class="item-left"><div class="item-name">Chip Roll</div></div><div class="item-price">R17</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Combo</div><div class="item-left"><div class="item-name">Chip Roll Combo</div></div><div class="item-price">R26</div></div>
   </div>
+  <p class="search-empty" id="searchEmpty" role="status">No items found in this category. Try another search or category.</p>
 
   <div class="menu-grid" id="vetkoek">
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
@@ -634,6 +698,73 @@ const io = new IntersectionObserver((entries)=>{
 }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
 revealEls.forEach(el=>io.observe(el));
 
+const menuToggle = document.querySelector('.menu-toggle');
+const siteNav = document.getElementById('site-nav');
+menuToggle.addEventListener('click', ()=>{
+  const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+  menuToggle.setAttribute('aria-expanded', String(!isOpen));
+  siteNav.classList.toggle('open', !isOpen);
+  menuToggle.textContent = isOpen ? 'Menu' : 'Close';
+});
+siteNav.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click', ()=>{
+    menuToggle.setAttribute('aria-expanded', 'false');
+    siteNav.classList.remove('open');
+    menuToggle.textContent = 'Menu';
+  });
+});
+
+document.querySelectorAll('.menu-item').forEach(item=>{
+  const name = item.querySelector('.item-name')?.textContent.trim();
+  const price = item.querySelector('.price-stack')?.textContent.replace(/\s+/g, ' ').trim()
+    || item.querySelector('.item-price')?.textContent.trim();
+  if(!name || !price) return;
+  const orderLink = document.createElement('a');
+  orderLink.className = 'item-order';
+  orderLink.target = '_blank';
+  orderLink.rel = 'noopener';
+  orderLink.textContent = 'Order';
+  orderLink.href = `https://wa.me/27767262115?text=${encodeURIComponent(`Hi Roker Eats, I'd like to order: ${name} (${price})`)}`;
+  orderLink.setAttribute('aria-label', `Order ${name} on WhatsApp`);
+  item.appendChild(orderLink);
+});
+
+const categoryImages = {
+  chips: ['images/leg%20and%20chips.jpeg', 'Chips'],
+  vetkoek: ['images/roker-kota.jpeg', 'Vetkoek'],
+  kota: ['images/roker-kota.jpeg', 'Kota'],
+  burgers: ['images/club%20burger.jpeg', 'Burgers'],
+  chicken: ['images/quater%20leg%20and%20chips%20plate.jpeg', 'Chicken & Chips'],
+  family: ['images/Sunday%20Special.jpeg', 'Family Treat'],
+  more: ['images/regular_chicken_gatsby.jpeg', 'Gatsby'],
+  'seven-plate': ['images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg', 'Plates'],
+  fish: ['images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp', 'Fish & Chips']
+};
+Object.entries(categoryImages).forEach(([category, [src, label]])=>{
+  const grid = document.getElementById(category);
+  if(!grid) return;
+  const visual = document.createElement('div');
+  visual.className = 'category-visual';
+  visual.innerHTML = `<img src="${src}" alt="${label} featured dish" loading="lazy"><span>${label}</span>`;
+  grid.prepend(visual);
+});
+
+const menuSearch = document.getElementById('menuSearch');
+const searchEmpty = document.getElementById('searchEmpty');
+function filterMenu(){
+  const activeGrid = document.querySelector('.menu-grid.active');
+  const query = menuSearch.value.trim().toLowerCase();
+  if(!activeGrid) return;
+  let visibleItems = 0;
+  activeGrid.querySelectorAll('.menu-item').forEach(item=>{
+    const matches = !query || item.textContent.toLowerCase().includes(query);
+    item.hidden = !matches;
+    if(matches) visibleItems++;
+  });
+  searchEmpty.classList.toggle('visible', visibleItems === 0);
+}
+menuSearch.addEventListener('input', filterMenu);
+
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
@@ -641,6 +772,8 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.classList.add('active');
     btn.setAttribute('aria-selected','true');
     document.getElementById(btn.dataset.tab).classList.add('active');
+    menuSearch.value = '';
+    filterMenu();
   });
 });
 </script>
