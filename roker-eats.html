@@ -184,12 +184,26 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-head p{margin:18px auto 0;color:#5c5347;font-size:1.02rem;line-height:1.6;max-width:52ch;}
 
 .tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:40px 0 10px;padding:0 16px;}
-.menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;justify-content:flex-end;}
+.menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.search-box{width:min(100%,360px);position:relative;}
 .menu-search{
-  width:min(100%,360px);padding:13px 17px;border-radius:999px;
+  width:100%;padding:13px 44px 13px 17px;border-radius:999px;
   border:1.5px solid rgba(20,20,20,.22);background:rgba(255,255,255,.55);color:var(--ink);
 }
 .menu-search::placeholder{color:#6b6155;}
+.search-clear{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;border:0;border-radius:50%;background:transparent;
+  color:#6b6155;cursor:pointer;font-size:1.1rem;line-height:1;
+}
+.search-clear:hover{background:rgba(20,20,20,.08);color:var(--ink);}
+.search-meta{min-height:20px;color:#6b6155;font-size:.82rem;text-align:right;}
+.search-suggestions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+.search-suggestion{
+  border:1px solid rgba(20,20,20,.16);border-radius:999px;background:transparent;
+  color:#5c5347;padding:6px 11px;font-size:.75rem;cursor:pointer;
+}
+.search-suggestion:hover{border-color:var(--red);color:var(--red-deep);background:rgba(214,48,27,.05);}
 .search-empty{display:none;max-width:980px;margin:30px auto 0;padding:24px 32px;text-align:center;color:#6b6155;}
 .search-empty.visible{display:block;}
 .tab-btn{
@@ -201,8 +215,9 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .tab-btn.active{background:var(--ink);border-color:var(--ink);color:var(--gold);box-shadow:0 10px 18px -14px rgba(20,20,20,0.55);}
 .tab-btn:active{transform:translateY(0) scale(0.96);}
 
+.menu-section.is-searching .menu-grid:not(.search-match){display:none;}
 .menu-grid{max-width:980px;margin:30px auto 0;padding:0 32px;display:none;}
-.menu-grid.active{display:block;}
+.menu-grid.active,.menu-grid.search-match{display:block;}
 .category-visual{
   height:220px;margin-bottom:22px;border-radius:22px;overflow:hidden;
   background:
@@ -248,6 +263,9 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   isolation:isolate;z-index:1;display:flex;align-items:center;justify-content:center;
 }
 .item-photo .food-art{font-size:3.3rem;line-height:1;filter:drop-shadow(0 10px 8px rgba(20,20,20,.18));}
+.drink-art{width:72px;height:96px;filter:drop-shadow(0 10px 8px rgba(20,20,20,.18));}
+.drink-art text{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.04em;text-anchor:middle;}
+.drink-art .drink-body{stroke:rgba(20,20,20,.2);stroke-width:2;}
 
 .menu-item.menu-text{
   grid-template-columns:92px minmax(0,1fr) auto auto;
@@ -409,6 +427,9 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   .item-order{justify-self:start;}
   .menu-tools{padding:0 20px;}
   .menu-search{width:100%;}
+  .search-box,.search-meta{width:100%;}
+  .search-meta{text-align:left;}
+  .search-suggestions{justify-content:flex-start;}
   .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:0 20px 8px;scrollbar-width:thin;}
   .tab-btn{flex:0 0 auto;}
   .search-empty{padding:24px 20px;}
@@ -496,8 +517,17 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 
   <div class="menu-subnote reveal">Menu items and prices from the latest Roker Eats menu.</div>
   <div class="menu-tools">
-    <label class="sr-only" for="menuSearch">Search menu items</label>
-    <input class="menu-search" id="menuSearch" type="search" placeholder="Search this category..." autocomplete="off">
+    <div class="search-box">
+      <label class="sr-only" for="menuSearch">Search menu items</label>
+      <input class="menu-search" id="menuSearch" type="search" placeholder="Search the full menu..." autocomplete="off" spellcheck="false">
+      <button class="search-clear" id="searchClear" type="button" aria-label="Clear menu search" hidden>×</button>
+    </div>
+    <div class="search-meta" id="searchMeta" role="status" aria-live="polite">Browse a category or search the full menu.</div>
+    <div class="search-suggestions" aria-label="Popular menu searches">
+      <button class="search-suggestion" type="button" data-search="gwinya">Gwinya</button>
+      <button class="search-suggestion" type="button" data-search="chicken chips">Chicken &amp; chips</button>
+      <button class="search-suggestion" type="button" data-search="drinks">Drinks</button>
+    </div>
   </div>
 
   <div class="tabs reveal" role="tablist" aria-label="Menu categories">
@@ -520,7 +550,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <div class="menu-item menu-text"><div class="menu-mark">Roll</div><div class="item-left"><div class="item-name">Chip Roll</div></div><div class="item-price">R17</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Combo</div><div class="item-left"><div class="item-name">Chip Roll Combo</div></div><div class="item-price">R26</div></div>
   </div>
-  <p class="search-empty" id="searchEmpty" role="status">No items found in this category. Try another search or category.</p>
+  <p class="search-empty" id="searchEmpty" role="status">No menu items found. Try a food name, category, or alias such as “gwinya”.</p>
 
   <div class="menu-grid" id="vetkoek">
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
@@ -588,11 +618,11 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-grid" id="drinks">
-    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥤</span></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Flavoured Water</div></div><div class="item-price">R12</div></div>
-    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥤</span></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Pepsi</div></div><div class="item-price">R13</div></div>
-    <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Coke</div></div><div class="item-price">R13</div></div>
+    <div class="menu-item"><div class="item-photo"><svg class="drink-art" viewBox="0 0 72 96" role="img" aria-label="Jive soft drink bottle"><path class="drink-body" fill="#F2C94C" d="M25 14h22v8l5 8v55a7 7 0 0 1-7 7H27a7 7 0 0 1-7-7V30l5-8z"/><path fill="#D6301B" d="M20 40h32v29H20z"/><text x="36" y="58" fill="#FFF">JIVE</text><path fill="#E8B923" d="M30 7h12v8H30z"/></svg></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
+    <div class="menu-item"><div class="item-photo"><svg class="drink-art" viewBox="0 0 72 96" role="img" aria-label="Flavoured water bottle"><path class="drink-body" fill="#D9F3F4" d="M25 14h22v8l5 8v55a7 7 0 0 1-7 7H27a7 7 0 0 1-7-7V30l5-8z"/><path fill="#25A9A1" d="M20 40h32v29H20z"/><text x="36" y="55" fill="#FFF">WATER</text><circle cx="29" cy="63" r="3" fill="#E8B923"/><circle cx="40" cy="63" r="3" fill="#D6301B"/><path fill="#25A9A1" d="M30 7h12v8H30z"/></svg></div><div class="item-left"><div class="item-name">Flavoured Water</div></div><div class="item-price">R12</div></div>
+    <div class="menu-item"><div class="item-photo"><svg class="drink-art" viewBox="0 0 72 96" role="img" aria-label="Score energy drink can"><path class="drink-body" fill="#C62828" d="M21 12h30l3 8v62a6 6 0 0 1-6 6H24a6 6 0 0 1-6-6V20z"/><path fill="#E8B923" d="M21 38h30v22H21z"/><text x="36" y="53" fill="#141414">SCORE</text><ellipse cx="36" cy="12" rx="15" ry="3" fill="#D9D2C1"/></svg></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
+    <div class="menu-item"><div class="item-photo"><svg class="drink-art" viewBox="0 0 72 96" role="img" aria-label="Pepsi soft drink bottle"><path class="drink-body" fill="#1D4ED8" d="M25 14h22v8l5 8v55a7 7 0 0 1-7 7H27a7 7 0 0 1-7-7V30l5-8z"/><path fill="#FFF" d="M20 43h32v20H20z"/><circle cx="36" cy="53" r="7" fill="#D6301B"/><path fill="#FFF" d="M30 53a6 6 0 0 0 12 0 8 8 0 0 1-12 0z"/><text x="36" y="76" fill="#FFF">PEPSI</text><path fill="#1D4ED8" d="M30 7h12v8H30z"/></svg></div><div class="item-left"><div class="item-name">Pepsi</div></div><div class="item-price">R13</div></div>
+    <div class="menu-item"><div class="item-photo"><svg class="drink-art" viewBox="0 0 72 96" role="img" aria-label="Coke soft drink bottle"><path class="drink-body" fill="#D6301B" d="M25 14h22v8l5 8v55a7 7 0 0 1-7 7H27a7 7 0 0 1-7-7V30l5-8z"/><path fill="#FFF" d="M20 43h32v22H20z"/><text x="36" y="57" fill="#D6301B">COKE</text><path fill="#D6301B" d="M30 7h12v8H30z"/></svg></div><div class="item-left"><div class="item-name">Coke</div></div><div class="item-price">R13</div></div>
   </div>
 
 </section>
@@ -746,19 +776,82 @@ Object.entries(categoryArt).forEach(([category, [src, label, icon]])=>{
 
 const menuSearch = document.getElementById('menuSearch');
 const searchEmpty = document.getElementById('searchEmpty');
+const searchClear = document.getElementById('searchClear');
+const searchMeta = document.getElementById('searchMeta');
+const categoryAliases = {
+  chips: 'chips fries slap chips chip roll',
+  vetkoek: 'vetkoek gwinya amagwinya fat cake fat cakes',
+  kota: 'kota quarter loaf sandwich',
+  burgers: 'burger beef burger cheeseburger',
+  chicken: 'chicken chicken and chips leg wings',
+  family: 'family treat family meal sharing meal',
+  more: 'gatsby gatsby roll sandwich',
+  'seven-plate': 'plates seven colours seven color plate rice beef samp starch',
+  fish: 'fish fish and chips hake',
+  drinks: 'drinks drink cold drink soft drink water soda'
+};
+function normalizeSearch(value){
+  return value
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 function filterMenu(){
-  const activeGrid = document.querySelector('.menu-grid.active');
-  const query = menuSearch.value.trim().toLowerCase();
-  if(!activeGrid) return;
+  const query = normalizeSearch(menuSearch.value);
+  const queryTerms = query ? query.split(' ') : [];
+  searchClear.hidden = !query;
+  document.querySelector('.menu-section').classList.toggle('is-searching', Boolean(query));
   let visibleItems = 0;
-  activeGrid.querySelectorAll('.menu-item').forEach(item=>{
-    const matches = !query || item.textContent.toLowerCase().includes(query);
-    item.hidden = !matches;
-    if(matches) visibleItems++;
+  const matchingCategories = [];
+  const grids = document.querySelectorAll('.menu-grid');
+  grids.forEach(grid=>{
+    const categoryText = `${grid.id} ${categoryAliases[grid.id] || ''}`;
+    const searchableCategory = normalizeSearch(categoryText);
+    let categoryMatches = false;
+    grid.querySelectorAll('.menu-item').forEach(item=>{
+      const itemText = normalizeSearch(`${item.textContent} ${searchableCategory}`);
+      const matches = !query || queryTerms.every(term=>itemText.includes(term));
+      item.hidden = !matches;
+      categoryMatches = categoryMatches || matches;
+      if(matches) visibleItems++;
+    });
+    grid.classList.toggle('search-match', Boolean(query && categoryMatches));
+    if(query && categoryMatches){
+      matchingCategories.push(grid.querySelector('.category-visual span:last-child')?.textContent || grid.id);
+    }
   });
-  searchEmpty.classList.toggle('visible', visibleItems === 0);
+  if(!query){
+    document.querySelectorAll('.menu-grid').forEach(grid=>{
+      grid.classList.remove('search-match');
+      grid.querySelectorAll('.menu-item').forEach(item=>{item.hidden = false;});
+    });
+  }
+  searchEmpty.classList.toggle('visible', Boolean(query && visibleItems === 0));
+  if(!query){
+    searchMeta.textContent = 'Browse a category or search the full menu.';
+  }else if(visibleItems){
+    const itemLabel = visibleItems === 1 ? 'item' : 'items';
+    const categoryLabel = matchingCategories.length === 1 ? 'category' : 'categories';
+    searchMeta.textContent = `${visibleItems} ${itemLabel} found in ${matchingCategories.length} ${categoryLabel}.`;
+  }else{
+    searchMeta.textContent = 'No matches yet. Try “gwinya”, “chicken”, or “drinks”.';
+  }
 }
 menuSearch.addEventListener('input', filterMenu);
+searchClear.addEventListener('click', ()=>{
+  menuSearch.value = '';
+  menuSearch.focus();
+  filterMenu();
+});
+document.querySelectorAll('.search-suggestion').forEach(button=>{
+  button.addEventListener('click', ()=>{
+    menuSearch.value = button.dataset.search || '';
+    filterMenu();
+    menuSearch.focus();
+  });
+});
 
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
@@ -767,6 +860,10 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.classList.add('active');
     btn.setAttribute('aria-selected','true');
     document.getElementById(btn.dataset.tab).classList.add('active');
+    document.querySelectorAll('.menu-grid').forEach(grid=>{
+      grid.classList.remove('search-match');
+      grid.querySelectorAll('.menu-item').forEach(item=>{item.hidden = false;});
+    });
     menuSearch.value = '';
     filterMenu();
   });
