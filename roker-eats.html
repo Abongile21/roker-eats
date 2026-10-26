@@ -216,6 +216,8 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .tab-btn:active{transform:translateY(0) scale(0.96);}
 
 .menu-section.is-searching .menu-grid:not(.search-match){display:none;}
+.menu-section.is-searching .tabs,
+.menu-section.is-searching .category-visual{display:none;}
 .menu-grid{max-width:980px;margin:30px auto 0;padding:0 32px;display:none;}
 .menu-grid.active,.menu-grid.search-match{display:block;}
 .category-visual{
@@ -406,17 +408,25 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   .pot-wrap{order:-1;max-width:260px;margin:0 auto 10px;}
   .loc-grid{grid-template-columns:1fr;gap:44px;}
   .nav{position:relative;}
+  .nav{padding-left:20px;padding-right:20px;}
   .menu-toggle{display:block;margin-left:auto;margin-right:10px;}
   .nav-links{
     display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
-    flex-direction:column;gap:0;padding:8px 32px 16px;background:rgba(20,20,20,.98);
+    flex-direction:column;gap:0;padding:8px 20px 16px;background:rgba(20,20,20,.98);
     border-bottom:1px solid rgba(232,185,35,.18);
   }
   .nav-links.open{display:flex;}
-  .nav-links a{padding:14px 0;}
+  .nav-links a{padding:16px 0;min-height:48px;}
 }
 @media (max-width: 560px){
-  .hero{padding-top:120px;}
+  .wrap{padding-left:20px;padding-right:20px;}
+  .hero{min-height:auto;padding:112px 20px 72px;}
+  .hero-inner{gap:18px;}
+  .pot-wrap{max-width:210px;}
+  .hero h1{font-size:clamp(3.2rem,18vw,5rem);}
+  .hero p.sub{font-size:1rem;line-height:1.55;}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:12px;margin-top:30px;}
+  .btn-primary,.btn-secondary{justify-content:center;text-align:center;padding:15px 20px;min-height:50px;}
   .menu-item{grid-template-columns:1fr;gap:14px;}
   .menu-grid:not(#drinks) .menu-item{grid-template-columns:1fr;gap:14px;}
   .menu-grid#drinks .menu-item{grid-template-columns:1fr;gap:14px;}
@@ -430,8 +440,21 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   .search-box,.search-meta{width:100%;}
   .search-meta{text-align:left;}
   .search-suggestions{justify-content:flex-start;}
-  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:0 20px 8px;scrollbar-width:thin;}
+  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:0 20px 8px;scrollbar-width:thin;scroll-snap-type:x proximity;}
   .tab-btn{flex:0 0 auto;}
+  .tab-btn{scroll-snap-align:start;min-height:50px;}
+  .menu-head{padding:72px 20px 34px;}
+  .menu-head h2{font-size:clamp(2rem,10vw,3rem);}
+  .menu-grid{padding-left:20px;padding-right:20px;}
+  .menu-item{padding:18px 16px;border-radius:16px;}
+  .item-name{font-size:1.12rem;line-height:1.2;}
+  .item-desc{font-size:.9rem;}
+  .item-order{min-height:44px;padding:11px 18px;}
+  .price-stack{align-items:flex-start;}
+  .order-card{padding:30px 20px;}
+  .wa-number{font-size:1.25rem;}
+  .map-frame{aspect-ratio:4 / 3;}
+  .wa-float{right:16px;bottom:16px;width:56px;height:56px;}
   .search-empty{padding:24px 20px;}
   .footer-inner{flex-direction:column;align-items:flex-start;}
   .wa-btn span{display:none;}
@@ -450,7 +473,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <a href="#order">Order</a>
       <a href="#location">Find Us</a>
     </div>
-    <a class="menu-toggle" href="#menu">Menu</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
   </nav>
 </header>
 
@@ -712,6 +735,23 @@ onScroll();
 
 const sections = ['menu','location'].map(id=>document.getElementById(id));
 const navLinks = document.querySelectorAll('.nav-links a');
+const menuToggle = document.querySelector('.menu-toggle');
+const siteNav = document.getElementById('site-nav');
+function closeMobileNav(){
+  menuToggle.setAttribute('aria-expanded', 'false');
+  siteNav.classList.remove('open');
+  menuToggle.textContent = 'Menu';
+}
+menuToggle.addEventListener('click', ()=>{
+  const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+  menuToggle.setAttribute('aria-expanded', String(!isOpen));
+  siteNav.classList.toggle('open', !isOpen);
+  menuToggle.textContent = isOpen ? 'Menu' : 'Close';
+});
+navLinks.forEach(link=>link.addEventListener('click', closeMobileNav));
+document.addEventListener('keydown', event=>{
+  if(event.key === 'Escape') closeMobileNav();
+});
 function onSpy(){
   let current = null;
   sections.forEach(sec=>{
