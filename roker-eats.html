@@ -851,7 +851,10 @@ function filterMenu(){
     const searchableCategory = normalizeSearch(categoryText);
     let categoryMatches = false;
     grid.querySelectorAll('.menu-item').forEach(item=>{
-      const itemText = normalizeSearch(`${item.textContent} ${searchableCategory}`);
+      const itemName = item.querySelector('.item-name')?.textContent || '';
+      const itemDescription = item.querySelector('.item-desc')?.textContent || '';
+      const itemLabel = item.querySelector('.menu-mark')?.textContent || '';
+      const itemText = normalizeSearch(`${itemName} ${itemDescription} ${itemLabel} ${searchableCategory}`);
       const matches = !query || queryTerms.every(term=>itemText.includes(term));
       item.hidden = !matches;
       categoryMatches = categoryMatches || matches;
