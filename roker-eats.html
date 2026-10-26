@@ -10,6 +10,7 @@
 <style>
 
 :root{
+  /* 60% dominant surface, 30% supporting surface, 10% accent emphasis */
   --ink:#141414;
   --ink-soft:#1F1F1F;
   --cream:#F4EFE3;
@@ -18,6 +19,7 @@
   --gold-deep:#C99A1A;
   --red:#D6301B;
   --red-deep:#A82212;
+  --action:#25D366;
   --steam:#F5F1E8;
   --radius-lg:26px;
 }
@@ -127,7 +129,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 }
 .btn-primary:hover::before,.btn-secondary:hover::before{left:130%;}
 .btn-primary{
-  background:#25D366;color:#0B1B10;padding:16px 30px;border-radius:100px;font-weight:700;
+  background:var(--action);color:#0B1B10;padding:16px 30px;border-radius:100px;font-weight:700;
   font-size:1rem;display:inline-flex;align-items:center;gap:10px;
   transition:transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -179,7 +181,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-head .eyebrow{color:var(--red-deep);justify-content:center;}
 .menu-head .eyebrow::before{background:var(--red-deep);}
 .menu-head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);line-height:1;}
-.menu-head p{margin-top:16px;color:#5c5347;font-size:1.02rem;line-height:1.6;}
+.menu-head p{margin:18px auto 0;color:#5c5347;font-size:1.02rem;line-height:1.6;max-width:52ch;}
 
 .tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:40px 0 10px;padding:0 16px;}
 .menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;justify-content:flex-end;}
@@ -203,13 +205,17 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .menu-grid.active{display:block;}
 .category-visual{
   height:220px;margin-bottom:22px;border-radius:22px;overflow:hidden;
-  background:var(--ink);border:1px solid rgba(20,20,20,.14);position:relative;
+  background:
+    radial-gradient(ellipse at center, rgba(255,255,255,.82), rgba(244,239,227,.2) 68%, transparent 100%);
+  border:1px solid rgba(20,20,20,.08);position:relative;
+  display:flex;align-items:center;justify-content:center;
 }
 .category-visual::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(20,20,20,.58),rgba(20,20,20,.05));
+  background:linear-gradient(90deg,rgba(20,20,20,.34),transparent 58%);
+  pointer-events:none;
 }
-.category-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+.category-visual .food-art{font-size:clamp(4rem,12vw,7rem);line-height:1;filter:drop-shadow(0 14px 10px rgba(20,20,20,.2));}
 .category-visual span{
   position:absolute;left:24px;bottom:18px;z-index:1;color:var(--cream);
   font-family:'Anton',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
@@ -233,13 +239,11 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .item-photo .photo-placeholder{display:none !important;}
 .item-photo{
   width:150px;height:118px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;
-  background:transparent;border:1px solid rgba(20,20,20,0.08);
-  isolation:isolate;z-index:1;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.9),rgba(244,239,227,.2) 72%,transparent 100%);
+  border:0;
+  isolation:isolate;z-index:1;display:flex;align-items:center;justify-content:center;
 }
-.item-photo img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  filter:none;opacity:1;mix-blend-mode:normal;
-}
+.item-photo .food-art{font-size:3.3rem;line-height:1;filter:drop-shadow(0 10px 8px rgba(20,20,20,.18));}
 
 .menu-item.menu-text{
   grid-template-columns:92px minmax(0,1fr) auto auto;
@@ -323,7 +327,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 .loc-detail a:hover{text-decoration:underline;}
 
 .order-card{
-  background:var(--ink-soft);border-radius:var(--radius-lg);padding:40px 34px;
+  background:var(--ink-soft);border-radius:var(--radius-lg);padding:44px 34px;
   border:1px solid rgba(232,185,35,0.15);text-align:center;position:relative;overflow:hidden;
 }
 .order-card::before{
@@ -364,7 +368,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 /* floating WhatsApp button (mobile-first ordering habit) */
 .wa-float{
   position:fixed;bottom:24px;right:24px;z-index:200;
-  width:60px;height:60px;border-radius:50%;background:#25D366;
+  width:60px;height:60px;border-radius:50%;background:var(--action);
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 14px 30px -8px rgba(37,211,102,0.55);
   transition:transform 0.25s ease;
@@ -421,7 +425,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
       <a href="#order">Order</a>
       <a href="#location">Find Us</a>
     </div>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <a class="menu-toggle" href="#menu">Menu</a>
   </nav>
 </header>
 
@@ -529,19 +533,19 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-grid" id="kota">
-    <div class="menu-item"><div class="item-photo"><img alt="Kota filled with chips and toppings" src="images/roker-kota.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍔</span></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Kota</div><div class="item-left"><div class="item-name">Classic</div></div><div class="item-price">R55</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Kota</div><div class="item-left"><div class="item-name">Club</div></div><div class="item-price">R70</div></div>
   </div>
 
   <div class="menu-grid" id="burgers">
-    <div class="menu-item"><div class="item-photo"><img alt="Burger with chips" src="images/club%20burger.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍔</span></div><div class="item-left"><div class="item-name">Basic</div></div><div class="item-price">R40</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Burger</div><div class="item-left"><div class="item-name">Cheese Burger</div></div><div class="item-price">R45</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Burger</div><div class="item-left"><div class="item-name">Roker Burger</div></div><div class="item-price">R70</div></div>
   </div>
 
   <div class="menu-grid" id="chicken">
-    <div class="menu-item"><div class="item-photo"><img alt="Quarter leg and chips" src="images/quater%20leg%20and%20chips%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">1/4 Leg</div></div><div class="item-price">R45</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍗</span></div><div class="item-left"><div class="item-name">1/4 Leg</div></div><div class="item-price">R45</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">1 Piece</div></div><div class="item-price">R27</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">2 Piece</div></div><div class="item-price">R45</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Chicken</div><div class="item-left"><div class="item-name">3 Piece</div></div><div class="item-price">R60</div></div>
@@ -552,23 +556,23 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-grid" id="family">
-    <div class="menu-item"><div class="item-photo"><img alt="Chicken and wings family plate" src="images/Sunday%20Special.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">2 x 1/4 Legs + 4 Wings</div></div><div class="item-price">R160</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍱</span></div><div class="item-left"><div class="item-name">2 x 1/4 Legs + 4 Wings</div></div><div class="item-price">R160</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">4 x 1/4 Legs + 4 Wings</div></div><div class="item-price">R300</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Family</div><div class="item-left"><div class="item-name">12 Wings + Chip</div></div><div class="item-price">R160</div></div>
   </div>
 
   <div class="menu-grid" id="more">
-    <div class="menu-item"><div class="item-photo"><img alt="Chicken Gatsby roll" src="images/regular_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Russian &amp; Cheese Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R55</span><span class="price-label">Large</span><span class="item-price">R110</span></div></div>
-    <div class="menu-item"><div class="item-photo"><img alt="Jumbo chicken Gatsby roll" src="images/jumbo_chicken_gatsby.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Chicken Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R65</span><span class="price-label">Large</span><span class="item-price">R130</span></div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥖</span></div><div class="item-left"><div class="item-name">Russian &amp; Cheese Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R55</span><span class="price-label">Large</span><span class="item-price">R110</span></div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥖</span></div><div class="item-left"><div class="item-name">Chicken Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R65</span><span class="price-label">Large</span><span class="item-price">R130</span></div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Gatsby</div><div class="item-left"><div class="item-name">Steak Gatsby</div></div><div class="price-stack"><span class="price-label">Mini</span><span class="item-price">R70</span><span class="price-label">Large</span><span class="item-price">R140</span></div></div>
   </div>
 
   <div class="menu-grid" id="seven-plate">
-    <div class="menu-item"><div class="item-photo"><img alt="Spicy fried rice and beef plate" src="images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Rice &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍛</span></div><div class="item-left"><div class="item-name">Rice &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Plate</div><div class="item-left"><div class="item-name">Pap &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item"><div class="item-photo"><img alt="Samp and beef plate" src="images/Samp%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Samp &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item"><div class="item-photo"><img alt="Steamed bread and beef plate" src="images/Steamed%20bread%20and%20Beef%20plate.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Steamed Bread &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
-    <div class="menu-item"><div class="item-photo"><img alt="Tripe with steamed bread" src="images/Steamed%20bread%20and%20tripe.jpeg" loading="lazy"></div><div class="item-left"><div class="item-name">Tripe &amp; Any Starch</div></div><div class="item-price">R65</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍛</span></div><div class="item-left"><div class="item-name">Samp &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍲</span></div><div class="item-left"><div class="item-name">Steamed Bread &amp; Beef/Chicken</div></div><div class="item-price">R70</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🍲</span></div><div class="item-left"><div class="item-name">Tripe &amp; Any Starch</div></div><div class="item-price">R65</div></div>
     <div class="menu-subnote">NB: All 7 colour plates come with 4 sides.</div>
   </div>
 
@@ -580,9 +584,9 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   </div>
 
   <div class="menu-grid" id="drinks">
-    <div class="menu-item"><div class="item-photo"><img alt="Jive soft drink" src="images/jive.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥤</span></div><div class="item-left"><div class="item-name">Jive</div></div><div class="item-price">R10</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Flavoured Water</div></div><div class="item-price">R12</div></div>
-    <div class="menu-item"><div class="item-photo"><img alt="Score energy drink" src="images/score.jfif" loading="lazy"></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
+    <div class="menu-item"><div class="item-photo"><span class="food-art" aria-hidden="true">🥤</span></div><div class="item-left"><div class="item-name">Score</div></div><div class="item-price">R9</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Pepsi</div></div><div class="item-price">R13</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Drink</div><div class="item-left"><div class="item-name">Coke</div></div><div class="item-price">R13</div></div>
   </div>
@@ -698,22 +702,6 @@ const io = new IntersectionObserver((entries)=>{
 }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
 revealEls.forEach(el=>io.observe(el));
 
-const menuToggle = document.querySelector('.menu-toggle');
-const siteNav = document.getElementById('site-nav');
-menuToggle.addEventListener('click', ()=>{
-  const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-  menuToggle.setAttribute('aria-expanded', String(!isOpen));
-  siteNav.classList.toggle('open', !isOpen);
-  menuToggle.textContent = isOpen ? 'Menu' : 'Close';
-});
-siteNav.querySelectorAll('a').forEach(link=>{
-  link.addEventListener('click', ()=>{
-    menuToggle.setAttribute('aria-expanded', 'false');
-    siteNav.classList.remove('open');
-    menuToggle.textContent = 'Menu';
-  });
-});
-
 document.querySelectorAll('.menu-item').forEach(item=>{
   const name = item.querySelector('.item-name')?.textContent.trim();
   const price = item.querySelector('.price-stack')?.textContent.replace(/\s+/g, ' ').trim()
@@ -729,23 +717,23 @@ document.querySelectorAll('.menu-item').forEach(item=>{
   item.appendChild(orderLink);
 });
 
-const categoryImages = {
-  chips: ['images/leg%20and%20chips.jpeg', 'Chips'],
-  vetkoek: ['images/roker-kota.jpeg', 'Vetkoek'],
-  kota: ['images/roker-kota.jpeg', 'Kota'],
-  burgers: ['images/club%20burger.jpeg', 'Burgers'],
-  chicken: ['images/quater%20leg%20and%20chips%20plate.jpeg', 'Chicken & Chips'],
-  family: ['images/Sunday%20Special.jpeg', 'Family Treat'],
-  more: ['images/regular_chicken_gatsby.jpeg', 'Gatsby'],
-  'seven-plate': ['images/Babalaz%20plate%20(%20Spicy%20Fried%20rice%20and%20spicy%20beef).jpeg', 'Plates'],
-  fish: ['images/chinese-take-out-with-fried-rice-and-general-tsos-2022-03-26-12-01-24-utc_480x480.webp', 'Fish & Chips']
+const categoryArt = {
+  chips: ['🍟', 'Chips'],
+  vetkoek: ['🥯', 'Vetkoek'],
+  kota: ['🥪', 'Kota'],
+  burgers: ['🍔', 'Burgers'],
+  chicken: ['🍗', 'Chicken & Chips'],
+  family: ['🍱', 'Family Treat'],
+  more: ['🥖', 'Gatsby'],
+  'seven-plate': ['🍛', 'Plates'],
+  fish: ['🐟', 'Fish & Chips']
 };
-Object.entries(categoryImages).forEach(([category, [src, label]])=>{
+Object.entries(categoryArt).forEach(([category, [icon, label]])=>{
   const grid = document.getElementById(category);
   if(!grid) return;
   const visual = document.createElement('div');
   visual.className = 'category-visual';
-  visual.innerHTML = `<img src="${src}" alt="${label} featured dish" loading="lazy"><span>${label}</span>`;
+  visual.innerHTML = `<span class="food-art" aria-hidden="true">${icon}</span><span>${label}</span>`;
   grid.prepend(visual);
 });
 
