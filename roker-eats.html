@@ -215,6 +215,10 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   background:linear-gradient(90deg,rgba(20,20,20,.34),transparent 58%);
   pointer-events:none;
 }
+.category-visual img{
+  width:100%;height:100%;object-fit:contain;display:block;
+  mix-blend-mode:multiply;filter:saturate(1.08) contrast(1.03);
+}
 .category-visual .food-art{font-size:clamp(4rem,12vw,7rem);line-height:1;filter:drop-shadow(0 14px 10px rgba(20,20,20,.2));}
 .category-visual span{
   position:absolute;left:24px;bottom:18px;z-index:1;color:var(--cream);
@@ -718,22 +722,25 @@ document.querySelectorAll('.menu-item').forEach(item=>{
 });
 
 const categoryArt = {
-  chips: ['🍟', 'Chips'],
-  vetkoek: ['🥯', 'Vetkoek'],
-  kota: ['🥪', 'Kota'],
-  burgers: ['🍔', 'Burgers'],
-  chicken: ['🍗', 'Chicken & Chips'],
-  family: ['🍱', 'Family Treat'],
-  more: ['🥖', 'Gatsby'],
-  'seven-plate': ['🍛', 'Plates'],
-  fish: ['🐟', 'Fish & Chips']
+  chips: ['images/CHIPS.png', 'Chips', '🍟'],
+  vetkoek: ['images/VETKOEK.png', 'Vetkoek', '🥯'],
+  kota: ['images/KOTA.png', 'Kota', '🥪'],
+  burgers: ['images/BURGER.png', 'Burgers', '🍔'],
+  chicken: ['images/CHICKANDCHIPS.png', 'Chicken & Chips'],
+  family: ['images/FAMILTREAT.png', 'Family Treat', '🍱'],
+  more: ['images/GATSBY.png', 'Gatsby'],
+  'seven-plate': ['images/PLATES.png', 'Plates'],
+  fish: ['images/FISHNCHIPS.png', 'Fish & Chips', '🐟']
 };
-Object.entries(categoryArt).forEach(([category, [icon, label]])=>{
+Object.entries(categoryArt).forEach(([category, [src, label, icon]])=>{
   const grid = document.getElementById(category);
   if(!grid) return;
   const visual = document.createElement('div');
   visual.className = 'category-visual';
-  visual.innerHTML = `<span class="food-art" aria-hidden="true">${icon}</span><span>${label}</span>`;
+  const art = src
+    ? `<img src="${src}" alt="${label} featured dish" loading="lazy">`
+    : `<span class="food-art" aria-hidden="true">${icon}</span>`;
+  visual.innerHTML = `${art}<span>${label}</span>`;
   grid.prepend(visual);
 });
 
