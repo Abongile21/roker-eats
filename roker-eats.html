@@ -177,14 +177,14 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
 
 /* ---------- MENU ---------- */
 .menu-section{background:var(--cream);color:var(--ink);padding:0 0 120px;position:relative;}
-.menu-head{text-align:center;padding:100px 32px 50px;max-width:720px;margin:0 auto;}
+.menu-head{text-align:left;padding:100px 32px 50px;max-width:980px;margin:0 auto;}
 .menu-head .eyebrow{color:var(--red-deep);justify-content:center;}
 .menu-head .eyebrow::before{background:var(--red-deep);}
 .menu-head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);line-height:1;}
-.menu-head p{margin:18px auto 0;color:#5c5347;font-size:1.02rem;line-height:1.6;max-width:52ch;}
+.menu-head p{margin:18px 0 0;color:#5c5347;font-size:1.02rem;line-height:1.6;max-width:52ch;}
 
-.tabs{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:40px 0 10px;padding:0 16px;}
-.menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.tabs{display:flex;justify-content:flex-start;gap:12px;flex-wrap:wrap;margin:40px auto 10px;max-width:980px;padding:0 32px;}
+.menu-tools{max-width:980px;margin:0 auto 12px;padding:0 32px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
 .search-box{width:min(100%,360px);position:relative;}
 .menu-search{
   width:100%;padding:13px 44px 13px 17px;border-radius:999px;
@@ -197,8 +197,8 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   color:#6b6155;cursor:pointer;font-size:1.1rem;line-height:1;
 }
 .search-clear:hover{background:rgba(20,20,20,.08);color:var(--ink);}
-.search-meta{min-height:20px;color:#6b6155;font-size:.82rem;text-align:right;}
-.search-suggestions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+.search-meta{min-height:20px;color:#6b6155;font-size:.82rem;text-align:left;}
+.search-suggestions{display:flex;justify-content:flex-start;gap:8px;flex-wrap:wrap;}
 .search-suggestion{
   border:1px solid rgba(20,20,20,.16);border-radius:999px;background:transparent;
   color:#5c5347;padding:6px 11px;font-size:.75rem;cursor:pointer;
@@ -345,7 +345,7 @@ header.scrolled{background:rgba(20,20,20,0.94);box-shadow:0 12px 30px -14px rgba
   transition:background 0.3s ease, transform 0.3s ease;
 }
 .loc-detail:hover .loc-icon{background:rgba(214,48,27,0.28);transform:scale(1.08) rotate(-6deg);}
-.loc-detail h4{font-family:'Work Sans',sans-serif;font-weight:700;font-size:0.98rem;color:var(--cream);text-transform:uppercase;letter-spacing:0.02em;}
+.loc-detail h4{font-family:'Work Sans',sans-serif;font-weight:700;font-size:1.05rem;color:var(--cream);text-transform:uppercase;letter-spacing:0.02em;}
 .loc-detail p{color:var(--cream-dim);font-size:0.94rem;margin-top:4px;line-height:1.5;}
 .loc-detail a{color:var(--gold);}
 .loc-detail a:hover{text-decoration:underline;}
@@ -459,21 +459,130 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   .footer-inner{flex-direction:column;align-items:flex-start;}
   .wa-btn span{display:none;}
 }
+
+/* ---------- CLEAN UI PASS ---------- */
+:root{
+  --ink:#111315;
+  --ink-soft:#191c1f;
+  --cream:#f7f4ed;
+  --cream-dim:#c9c4b8;
+  --gold:#f2bd32;
+  --gold-deep:#c99216;
+  --red:#c83b25;
+  --red-deep:#9f2d1d;
+  --radius-lg:20px;
+}
+
+body::before{display:none;}
+body{font-size:17px;}
+header{background:rgba(17,19,21,.88);border-bottom-color:rgba(247,244,237,.1);}
+header.scrolled{background:rgba(17,19,21,.97);box-shadow:0 10px 24px rgba(0,0,0,.2);}
+.nav{padding-top:14px;padding-bottom:14px;}
+.logo{font-size:1.35rem;letter-spacing:.04em;}
+.nav-links{gap:28px;font-size:.86rem;letter-spacing:.08em;}
+.wa-btn{padding:10px 17px;font-size:.78rem;}
+
+@media (min-width:901px){
+  .nav{max-width:none;padding-left:24px;padding-right:24px;}
+}
+
+.hero{min-height:clamp(650px,88vh,820px);padding-top:130px;padding-bottom:84px;}
+.hero-inner{grid-template-columns:minmax(0,1.05fr) minmax(260px,.75fr);gap:72px;}
+.hero h1{font-size:clamp(3.8rem,8vw,6.2rem);letter-spacing:-.02em;}
+.hero .tagline{font-size:1.25rem;letter-spacing:.08em;}
+.hero p.sub{max-width:520px;font-size:1.1rem;line-height:1.65;color:#bdb8ae;}
+.hero-actions{margin-top:32px;}
+.btn-primary,.btn-secondary{padding:15px 24px;font-size:1rem;}
+.pot-wrap{padding:28px;border:1px solid rgba(247,244,237,.1);border-radius:50%;background:rgba(255,255,255,.025);}
+.pot-svg{max-width:330px;}
+.blob-bg{opacity:.55;filter:blur(30px);}
+.splash-divider{height:44px;}
+
+.menu-section{padding-bottom:92px;}
+.menu-head{padding:76px 32px 32px;}
+.menu-head .eyebrow{justify-content:flex-start;}
+.menu-head h2{font-size:clamp(2.35rem,4.8vw,3.55rem);letter-spacing:-.01em;}
+.menu-head p{font-size:1.08rem;line-height:1.65;}
+.menu-subnote{margin-bottom:22px;font-size:.9rem;}
+.menu-tools{align-items:flex-start;gap:8px;}
+.search-box{width:100%;max-width:none;}
+.menu-search{padding:15px 46px 15px 18px;background:#fff;border-color:rgba(20,20,20,.14);font-size:1rem;}
+.search-meta{text-align:left;font-size:.86rem;}
+.search-suggestions{justify-content:flex-start;}
+.search-suggestion{background:rgba(255,255,255,.45);padding:7px 12px;}
+.tabs{justify-content:flex-start;gap:8px;margin:26px auto 8px;}
+.tab-btn{padding:11px 17px;min-height:46px;font-size:.78rem;background:transparent;}
+.tab-btn.active{box-shadow:none;}
+.menu-grid{margin-top:22px;}
+.category-visual{height:190px;margin-bottom:16px;border-radius:16px;background:#ebe6da;}
+.category-visual::after{background:linear-gradient(90deg,rgba(17,19,21,.48),transparent 70%);}
+.category-visual span{left:20px;bottom:15px;font-size:2rem;}
+.menu-item{
+  padding:16px 18px;border-radius:14px;margin-bottom:10px;
+  border-color:rgba(20,20,20,.12);background:rgba(255,255,255,.52);
+  box-shadow:none;
+}
+.menu-item:hover{background:#fff;border-color:rgba(200,59,37,.3);box-shadow:none;}
+.item-name{font-size:1.22rem;}
+.item-desc{font-size:.96rem;color:#756b5e;}
+.item-price{font-size:1rem;color:var(--red-deep);}
+.item-order{padding:10px 14px;font-size:.82rem;background:var(--ink);}
+.item-order:hover{background:var(--red);}
+.price-stack{gap:2px;}
+.price-stack .price-label{font-size:.62rem;}
+
+.location-section{padding:84px 0 78px;}
+.loc-grid{gap:48px;}
+.loc-info h2{font-size:clamp(2.35rem,4.5vw,3.1rem);}
+.loc-detail{margin-top:26px;}
+.loc-detail + .loc-detail{margin-top:18px;}
+.loc-icon{width:36px;height:36px;}
+.order-card{padding:34px 28px;border-radius:18px;border-color:rgba(247,244,237,.1);}
+.order-card::before{display:none;}
+.wa-number{font-size:1.35rem;}
+.map-frame{border-radius:14px;margin-top:18px;}
+footer{padding-top:34px;}
+.footer-links{gap:18px;font-size:.75rem;}
+.wa-float{width:54px;height:54px;right:20px;bottom:20px;}
+.wa-float svg{width:26px;height:26px;}
+
+@media (max-width:900px){
+  .hero-inner{gap:34px;}
+  .pot-wrap{max-width:230px;}
+  .menu-head{text-align:center;}
+  .menu-head .eyebrow{justify-content:center;}
+  .menu-head p{margin-left:auto;margin-right:auto;}
+  .tabs{justify-content:center;}
+  .menu-tools{align-items:stretch;}
+}
+@media (max-width:560px){
+  .hero{padding-top:104px;padding-bottom:58px;}
+  .hero-inner{gap:22px;}
+  .hero h1{font-size:clamp(3.3rem,17vw,4.7rem);}
+  .hero .tagline{font-size:.92rem;}
+  .pot-wrap{max-width:190px;padding:18px;}
+  .menu-head{padding-top:58px;}
+  .menu-grid{margin-top:18px;}
+  .category-visual{height:154px;}
+  .menu-item{padding:15px 14px;}
+  .item-order{justify-self:start;}
+  .location-section{padding-top:68px;}
+}
 </style>
 </head>
 <body>
-<a class="skip-link" href="#menu">Skip to menu</a>
+<a class="skip-link" href="#menu">Skip to food</a>
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <header>
   <nav class="nav">
     <div class="logo">Roker<span class="stroke">/</span>Eats</div>
     <div class="nav-links" id="site-nav">
-      <a href="#menu">Menu</a>
+      <a href="#menu">Food</a>
       <a href="#order">Order</a>
       <a href="#location">Find Us</a>
     </div>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Browse</button>
   </nav>
 </header>
 
@@ -492,7 +601,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3.02.79.8-2.95-.2-.31A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.39-1.32-1.63-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
           Order on WhatsApp
         </a>
-        <a href="#menu" class="btn-secondary">See the menu</a>
+        <a href="#menu" class="btn-secondary">See the dishes</a>
       </div>
     </div>
 
@@ -533,27 +642,27 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
 <!-- ================= MENU ================= -->
 <section class="menu-section" id="menu">
   <div class="menu-head reveal">
-    <div class="eyebrow">The Menu</div>
+    <div class="eyebrow">What’s cooking</div>
     <h2>Good food. Great taste. Always fresh.</h2>
     <p>Everything's dished fresh to order. Message us your pick on WhatsApp and we'll confirm your time.</p>
   </div>
 
-  <div class="menu-subnote reveal">Menu items and prices from the latest Roker Eats menu.</div>
+  <div class="menu-subnote reveal">Dishes and prices from the latest Roker Eats offering.</div>
   <div class="menu-tools">
     <div class="search-box">
-      <label class="sr-only" for="menuSearch">Search menu items</label>
-      <input class="menu-search" id="menuSearch" type="search" placeholder="Search the full menu..." autocomplete="off" spellcheck="false">
+      <label class="sr-only" for="menuSearch">Search dishes</label>
+      <input class="menu-search" id="menuSearch" type="search" placeholder="Search dishes..." autocomplete="off" spellcheck="false">
       <button class="search-clear" id="searchClear" type="button" aria-label="Clear menu search" hidden>×</button>
     </div>
-    <div class="search-meta" id="searchMeta" role="status" aria-live="polite">Browse a category or search the full menu.</div>
-    <div class="search-suggestions" aria-label="Popular menu searches">
+    <div class="search-meta" id="searchMeta" role="status" aria-live="polite">Browse a category or search all dishes.</div>
+    <div class="search-suggestions" aria-label="Popular dish searches">
       <button class="search-suggestion" type="button" data-search="gwinya">Gwinya</button>
       <button class="search-suggestion" type="button" data-search="chicken chips">Chicken &amp; chips</button>
       <button class="search-suggestion" type="button" data-search="drinks">Drinks</button>
     </div>
   </div>
 
-  <div class="tabs reveal" role="tablist" aria-label="Menu categories">
+  <div class="tabs reveal" role="tablist" aria-label="Food categories">
     <button class="tab-btn active" data-tab="chips" role="tab" aria-selected="true">Chips</button>
     <button class="tab-btn" data-tab="vetkoek" role="tab" aria-selected="false">Vetkoek</button>
     <button class="tab-btn" data-tab="kota" role="tab" aria-selected="false">Kota</button>
@@ -573,7 +682,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
     <div class="menu-item menu-text"><div class="menu-mark">Roll</div><div class="item-left"><div class="item-name">Chip Roll</div></div><div class="item-price">R17</div></div>
     <div class="menu-item menu-text"><div class="menu-mark">Combo</div><div class="item-left"><div class="item-name">Chip Roll Combo</div></div><div class="item-price">R26</div></div>
   </div>
-  <p class="search-empty" id="searchEmpty" role="status">No menu items found. Try a food name, category, or alias such as “gwinya”.</p>
+  <p class="search-empty" id="searchEmpty" role="status">No dishes found. Try a food name, category, or alias such as “gwinya”.</p>
 
   <div class="menu-grid" id="vetkoek">
     <div class="menu-item menu-text"><div class="menu-mark">Vetkoek</div><div class="item-left"><div class="item-name">Small</div></div><div class="item-price">R1</div></div>
@@ -709,7 +818,7 @@ footer{background:var(--ink);border-top:1px solid rgba(232,185,35,0.12);padding:
   <div class="footer-inner">
     <div class="logo">Roker<span class="stroke">/</span>Eats</div>
     <div class="footer-links">
-      <a href="#menu">Menu</a>
+      <a href="#menu">Food</a>
       <a href="#location">Find Us</a>
       <a href="https://wa.me/27767262115">WhatsApp</a>
     </div>
@@ -740,13 +849,13 @@ const siteNav = document.getElementById('site-nav');
 function closeMobileNav(){
   menuToggle.setAttribute('aria-expanded', 'false');
   siteNav.classList.remove('open');
-  menuToggle.textContent = 'Menu';
+  menuToggle.textContent = 'Browse';
 }
 menuToggle.addEventListener('click', ()=>{
   const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
   menuToggle.setAttribute('aria-expanded', String(!isOpen));
   siteNav.classList.toggle('open', !isOpen);
-  menuToggle.textContent = isOpen ? 'Menu' : 'Close';
+  menuToggle.textContent = isOpen ? 'Browse' : 'Close';
 });
 navLinks.forEach(link=>link.addEventListener('click', closeMobileNav));
 document.addEventListener('keydown', event=>{
@@ -873,7 +982,7 @@ function filterMenu(){
   }
   searchEmpty.classList.toggle('visible', Boolean(query && visibleItems === 0));
   if(!query){
-    searchMeta.textContent = 'Browse a category or search the full menu.';
+    searchMeta.textContent = 'Browse a category or search all dishes.';
   }else if(visibleItems){
     const itemLabel = visibleItems === 1 ? 'item' : 'items';
     const categoryLabel = matchingCategories.length === 1 ? 'category' : 'categories';
