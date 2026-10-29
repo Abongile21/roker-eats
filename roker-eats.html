@@ -956,17 +956,33 @@ function filterMenu(){
   let visibleItems = 0;
   const matchingCategories = [];
   const grids = document.querySelectorAll('.menu-grid');
+  const searchItems = [];
   grids.forEach(grid=>{
     const categoryText = `${grid.id} ${categoryAliases[grid.id] || ''}`;
     const searchableCategory = normalizeSearch(categoryText);
-    let categoryMatches = false;
     grid.querySelectorAll('.menu-item').forEach(item=>{
       const itemName = item.querySelector('.item-name')?.textContent || '';
       const itemDescription = item.querySelector('.item-desc')?.textContent || '';
       const itemLabel = item.querySelector('.menu-mark')?.textContent || '';
-      const itemText = normalizeSearch(`${itemName} ${itemDescription} ${itemLabel} ${searchableCategory}`);
-      const matches = !query || queryTerms.every(term=>itemText.includes(term));
-      item.hidden = !matches;
+      const searchableItem = normalizeSearch(`${itemName} ${itemDescription} ${itemLabel}`);
+      searchItems.push({
+        grid,
+        item,
+        searchableItem,
+        searchableCategory,
+        matchesItem: queryTerms.every(term=>searchableItem.includes(term))
+      });
+    });
+  });
+  const hasItemMatches = query && searchItems.some(entry=>entry.matchesItem);
+  grids.forEach(grid=>{
+    let categoryMatches = false;
+    searchItems.filter(entry=>entry.grid === grid).forEach(entry=>{
+      const matchesCategory = queryTerms.every(term=>
+        `${entry.searchableItem} ${entry.searchableCategory}`.includes(term)
+      );
+      const matches = !query || (hasItemMatches ? entry.matchesItem : matchesCategory);
+      entry.item.hidden = !matches;
       categoryMatches = categoryMatches || matches;
       if(matches) visibleItems++;
     });
