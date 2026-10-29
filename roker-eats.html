@@ -547,7 +547,8 @@ footer{padding-top:34px;}
 .wa-float svg{width:26px;height:26px;}
 
 @media (max-width:900px){
-  .hero-inner{gap:34px;}
+  .hero-inner{grid-template-columns:minmax(0,1fr);gap:34px;}
+  .pot-wrap{order:1;}
   .pot-wrap{max-width:230px;}
   .menu-head{text-align:center;}
   .menu-head .eyebrow{justify-content:center;}
